@@ -13,7 +13,6 @@ export default function makePostNote(addComment) {
       const note = await addComment(toAdd);
 
       return {
-        headers,
         statusCode: 201,
         body: { note },
       };

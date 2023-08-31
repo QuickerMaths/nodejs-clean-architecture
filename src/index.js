@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import db from "../db/index.js";
+import expressCallback from "./helpers/expressCallback.js";
 import notesController from "./controllers/index.js";
 
 const app = express();
@@ -14,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.post("/", notesController.postNote);
+app.post("/", expressCallback(notesController.postNote));
 
 db.once("open", () => {
   app.listen(3000, () => {
