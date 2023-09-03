@@ -1,4 +1,4 @@
-import notesDb from "../data-access/index.js";
+import notesDb from "../data-access/index.db.js";
 import makeCreateNote from "./create-note.js";
 
 const createNote = makeCreateNote({ notesDb });
