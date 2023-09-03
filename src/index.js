@@ -3,7 +3,7 @@ import express from "express";
 import morgan from "morgan";
 import db from "../db/index.js";
 import expressCallback from "./helpers/expressCallback.js";
-import notesController from "./controllers/index.js";
+import notesController from "./controllers/index.controller.js";
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("common"));
 
+app.get("/", expressCallback(notesController.getNotes));
 app.post("/", expressCallback(notesController.postNote));
 
 app.use("*", (req, res) => {
