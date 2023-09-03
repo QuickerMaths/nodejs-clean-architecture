@@ -11,11 +11,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("common"));
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 app.post("/", expressCallback(notesController.postNote));
+
+app.use("*", (req, res) => {
+  res.status(404).json({
+    success: "false",
+    message: "Page not found",
+    error: {
+      statusCode: 404,
+      message: "You reached a route that is not defined on this server",
+    },
+  });
+});
 
 db.once("open", () => {
   app.listen(3000, () => {

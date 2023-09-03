@@ -6,13 +6,9 @@ export default function makeNotesDb(model) {
   }
 
   async function insert({ title, content }) {
-    try {
-      const note = await model.create({ title, content });
+    const note = await model.create({ title, content });
 
-      return note;
-    } catch (e) {
-      console.log(e);
-    }
+    return note;
   }
 
   return Object.freeze({

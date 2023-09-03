@@ -21,23 +21,19 @@ export default (controller) => (req, res) => {
 
   controller(httpRequest)
     .then((httpResponse) => {
-      res.set("Content-Type", "application/json");
-      res.type("json");
-      const body = {
-        success: true,
-        code: httpResponse.statusCode,
-        data: httpResponse.body,
-      };
-      res.status(200).send(body);
+      if (httpResponse.headers) {
+        res.set(httpResponse.headers);
+      }
+
+      res.status(httpResponse.statusCode).send(httpResponse.body);
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
 
       res.status(400).send({
-        success: false,
-        code: 400,
-        error: {
-          description: e.message,
+        statusCode: 400,
+        body: {
+          error: e.message,
         },
       });
     });

@@ -8,15 +8,9 @@ export default function makeCreateNote({ notesDb }) {
       throw new Error("Note must have content.");
     }
 
-    try {
-      const note = await notesDb.insert({
-        title,
-        content,
-      });
-
-      return note;
-    } catch (err) {
-      console.log(err);
-    }
+    return await notesDb.insert({
+      title,
+      content,
+    });
   };
 }
