@@ -3,6 +3,7 @@ export default function makePostNote(addComment) {
     const toAdd = {
       title: httpRequest.body.title,
       content: httpRequest.body.content,
+      important: httpRequest.body.important,
     };
 
     const note = await addComment(toAdd);

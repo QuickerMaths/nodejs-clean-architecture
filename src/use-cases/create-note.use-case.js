@@ -1,8 +1,9 @@
 export default function makeCreateNote(notesDb, validate) {
-  return async function createNote({ title, content } = {}) {
+  return async function createNote({ title, content, important } = {}) {
     const note = {
       title,
       content,
+      important,
     };
 
     const errors = validate(note);
@@ -14,6 +15,7 @@ export default function makeCreateNote(notesDb, validate) {
     return await notesDb.insert({
       title,
       content,
+      important,
     });
   };
 }
