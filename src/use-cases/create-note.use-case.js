@@ -1,11 +1,14 @@
-export default function makeCreateNote({ notesDb }) {
+export default function makeCreateNote(notesDb, validate) {
   return async function createNote({ title, content } = {}) {
-    if (!title) {
-      throw new Error("Note must have a title.");
-    }
+    const note = {
+      title,
+      content,
+    };
 
-    if (!content) {
-      throw new Error("Note must have content.");
+    const errors = validate(note);
+
+    if (errors) {
+      throw new Error(errors);
     }
 
     return await notesDb.insert({
