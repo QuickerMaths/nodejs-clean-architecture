@@ -5,6 +5,13 @@ import db from "../db/index.js";
 import expressCallback from "./helpers/expressCallback.js";
 import notesController from "./controllers/index.controller.js";
 
+//TODO: Implement delete, update and get by id routes
+//TODO: Add some route handling
+//TODO: Work on better error handling
+//TODO: Add users and authentication
+//TODO: Implement initial database set up
+//TODO: Add tests
+
 const app = express();
 
 app.use(express.json());
