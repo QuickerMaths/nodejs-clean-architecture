@@ -1,9 +1,9 @@
 import {
   FieldRequiredError,
   ValidationError,
-} from "../../helpers/errors/index.errors.js";
+} from "../../utils/errors/index.errors.js";
 
-export default function makeValidation(validator, schema) {
+export default function makeNoteValidation(validator, schema) {
   return function validation(note) {
     const validate = validator.compile(schema);
     const isValid = validate(note);
