@@ -1,9 +1,9 @@
 import makeGetNotes from "./get-notes.controller.js";
 import makePostNote from "./post-note.controller.js";
-import noteService from "../use-cases/index.use-case.js";
+import notesUseCase from "../use-cases/index.use-case.js";
 
-const getNotes = makeGetNotes(noteService.findNotes);
-const postNote = makePostNote(noteService.createNote);
+const getNotes = makeGetNotes(notesUseCase.findNotes);
+const postNote = makePostNote(notesUseCase.createNote);
 
 const notesController = Object.freeze({
   getNotes,

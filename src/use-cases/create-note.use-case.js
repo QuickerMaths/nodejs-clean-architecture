@@ -6,11 +6,7 @@ export default function makeCreateNote(notesDb, validate) {
       important,
     };
 
-    const errors = validate(note);
-
-    if (errors) {
-      throw new Error(errors);
-    }
+    validate(note);
 
     return await notesDb.insert({
       title,

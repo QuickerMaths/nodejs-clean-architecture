@@ -9,10 +9,10 @@ const createNote = makeCreateNote(
   noteValidations.createNoteValidation
 );
 
-const notesService = Object.freeze({
+const notesUseCase = Object.freeze({
   findNotes,
   createNote,
 });
 
-export default notesService;
+export default notesUseCase;
 export { createNote, findNotes };
