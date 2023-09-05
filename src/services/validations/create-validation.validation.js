@@ -1,5 +1,7 @@
-import { ValidationError } from "../../helpers/errors/ValidationError.js";
-import { FieldRequiredError } from "../../helpers/errors/FieldRequiredError.js";
+import {
+  FieldRequiredError,
+  ValidationError,
+} from "../../helpers/errors/index.errors.js";
 
 export default function makeValidation(validator, schema) {
   return function validation(note) {
@@ -15,7 +17,10 @@ export default function makeValidation(validator, schema) {
             error.message,
             true
           );
-        } else if (error.keyword === "type") {
+        } else if (
+          error.keyword === "minLength" ||
+          error.keyword === "maxLength"
+        ) {
           throw new ValidationError(
             "Validation Error",
             400,
