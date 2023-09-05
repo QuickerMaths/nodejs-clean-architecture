@@ -1,8 +1,8 @@
 import { BaseError } from "../utils/errors/index.errors.js";
 
 class ErrorHandler {
-  async handleError(err) {
-    console.log(err);
+  async handleError(error) {
+    console.log(error);
   }
 
   isTrustedError(error) {

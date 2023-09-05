@@ -24,7 +24,7 @@ export default function makeNoteValidation(validator, schema) {
           throw new ValidationError(
             "Validation Error",
             400,
-            error.message,
+            `${error.instancePath} ${error.message}`,
             true
           );
         }

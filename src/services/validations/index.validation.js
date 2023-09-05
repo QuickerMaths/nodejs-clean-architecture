@@ -6,10 +6,10 @@ const ajv = new Ajv();
 
 const noteValidation = makeNoteValidation(ajv, createNoteSchema);
 
-const noteValidations = Object.freeze({
+const validations = Object.freeze({
   noteValidation,
 });
 
-export default noteValidations;
+export default validations;
 
 export { noteValidation };

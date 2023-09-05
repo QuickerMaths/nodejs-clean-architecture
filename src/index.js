@@ -8,7 +8,6 @@ import errorHandler from "./helpers/errorHandler.js";
 
 //TODO: Implement delete, update and get by id routes
 //TODO: Add some route handling
-//TODO: Work on better error handling
 //TODO: Add users and authentication
 //TODO: Implement initial database set up
 //TODO: Add tests
@@ -49,8 +48,8 @@ process.on("uncaughtException", (error) => {
 });
 
 db.once("open", () => {
-  app.listen(3000, () => {
-    console.log(`Server is listening on port ${3000}`);
+  app.listen(process.env.PORT, () => {
+    console.log(`Server is listening on port ${process.env.PORT}`);
     console.log(`Database is connected to db`);
   });
 });

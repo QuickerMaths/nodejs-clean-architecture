@@ -1,4 +1,4 @@
-export default (controller) => (req, res) => {
+export default (controller) => (req, res, next) => {
   const httpRequest = {
     body: req.body,
     query: req.query,
@@ -27,14 +27,23 @@ export default (controller) => (req, res) => {
 
       res.status(httpResponse.statusCode).send(httpResponse.body);
     })
-    .catch((e) => {
-      console.error(e);
+    .catch((err) => {
+      if (err.isOperational) {
+        res.status(err.statusCode).send({
+          statusCode: err.statusCode,
+          body: {
+            error: err.message,
+          },
+        });
+      } else {
+        res.status(500).send({
+          statusCode: 500,
+          body: {
+            error: "Internal Server Error",
+          },
+        });
+      }
 
-      res.status(400).send({
-        statusCode: 400,
-        body: {
-          error: e.message,
-        },
-      });
+      next(err);
     });
 };
