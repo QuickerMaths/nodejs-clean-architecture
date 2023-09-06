@@ -4,6 +4,8 @@ import expressCallback from "../helpers/expressCallback.js";
 
 const router = express.Router();
 
-router.post("/register", expressCallback(usersController.postUser));
+router
+  .get("/login", expressCallback(usersController.loginUser))
+  .post("/register", expressCallback(usersController.postUser));
 
 export default router;

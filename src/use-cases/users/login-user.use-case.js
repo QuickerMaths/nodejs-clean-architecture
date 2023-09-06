@@ -8,7 +8,7 @@ export default function makeLoginUser(usersDb, authService) {
       throw new UnauthorizedError("Unauthorized", 403, "Invalid email.", true);
     }
 
-    const isValid = await authService.compare(password, user.password);
+    const isValid = await authService().compare(password, user.password);
 
     if (!isValid) {
       throw new UnauthorizedError(
