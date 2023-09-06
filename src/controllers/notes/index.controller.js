@@ -1,6 +1,6 @@
 import makeGetNotes from "./get-notes.controller.js";
 import makePostNote from "./post-note.controller.js";
-import notesUseCase from "../use-cases/index.use-case.js";
+import notesUseCase from "../../use-cases/notes/index.use-case.js";
 
 const getNotes = makeGetNotes(notesUseCase.findNotes);
 const postNote = makePostNote(notesUseCase.createNote);
