@@ -1,4 +1,4 @@
-import "dotenv/config";
+import config from "./config/config.js";
 import express from "express";
 import cors from "cors";
 import pino from "pino-http";
@@ -10,7 +10,6 @@ import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 
 //TODO: Implement delete, update and get by id routes
-//TODO: Add users and authentication
 //TODO: Implement initial database set up
 //TODO: Add tests
 
@@ -18,17 +17,20 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(pino(loggerOptions));
-
 app.use(
   cors({
     origin: "http://localhost:3000",
   })
 );
+app.use(pino(loggerOptions));
+
+// Routes
 
 app.use("/auth", usersRouter);
 app.use("/notes", notesRouter);
 app.use(notFound);
+
+// Error handling middleware
 
 app.use((err, req, res, next) => {
   if (!errorHandler.isTrustedError(err)) {
@@ -48,9 +50,11 @@ process.on("uncaughtException", (error) => {
   }
 });
 
+// Database connection
+
 db.once("open", () => {
-  app.listen(process.env.PORT, () => {
-    logger.info(`Server is listening on port ${process.env.PORT}`);
+  app.listen(config.port, () => {
+    logger.info(`Server is listening on port ${config.port}`);
     logger.info(`Database is connected to db`);
   });
 });

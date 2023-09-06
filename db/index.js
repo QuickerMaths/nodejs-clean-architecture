@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import config from "../src/config/config.js";
 
 dotenv.config();
 
-mongoose.connect(process.env.DB_URI);
+mongoose.connect(config.db.url);
 
 const db = mongoose.connection;
 
