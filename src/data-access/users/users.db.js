@@ -11,8 +11,15 @@ export default function makeUserDb(model) {
     return user;
   }
 
+  async function getByEmail({ email }) {
+    const user = model.findPne({ email });
+
+    return user;
+  }
+
   return Object.freeze({
     insert,
     getById,
+    getByEmail,
   });
 }
