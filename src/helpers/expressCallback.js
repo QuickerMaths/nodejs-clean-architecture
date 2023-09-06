@@ -43,7 +43,5 @@ export default (controller) => (req, res, next) => {
           },
         });
       }
-
-      next(err);
     });
 };

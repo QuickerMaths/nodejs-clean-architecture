@@ -4,6 +4,7 @@ import { FieldRequiredError } from "./FieldRequiredError.js";
 import { InvalidEmail } from "./InvalidEmail.js";
 import { DuplicateError } from "./DuplicateError.js";
 import { UnauthorizedError } from "./UnauthorizedError.js";
+import { ForbiddenError } from "./ForbiddenError.js";
 
 export {
   BaseError,
@@ -12,4 +13,5 @@ export {
   InvalidEmail,
   DuplicateError,
   UnauthorizedError,
+  ForbiddenError,
 };

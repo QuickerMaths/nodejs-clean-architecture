@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export default function jwtService() {
-  const verifyJWT = (token) => jwt.verify(token, process.env.JWT_SECRET);
+  const verifyToken = (token) => jwt.verify(token, process.env.JWT_SECRET);
 
   const generateToken = (payload) =>
     jwt.sign(payload, process.env.JWT_SECRET, {
@@ -9,7 +9,7 @@ export default function jwtService() {
     });
 
   return Object.freeze({
-    verifyJWT,
+    verifyToken,
     generateToken,
   });
 }

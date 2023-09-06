@@ -1,12 +1,16 @@
 import express from "express";
 import notesController from "../controllers/notes/index.controller.js";
 import expressCallback from "../helpers/expressCallback.js";
-import authService from "../services/auth/index.auth-service.js";
+import authExpressMiddleware from "../helpers/authExpreesMiddleware.js";
 
 const router = express.Router();
 
 router
-  .get("/", expressCallback(notesController.getNotes))
-  .post("/", expressCallback(notesController.postNote));
+  .get("/", [authExpressMiddleware], expressCallback(notesController.getNotes))
+  .post(
+    "/",
+    [authExpressMiddleware],
+    expressCallback(notesController.postNote)
+  );
 
 export default router;
