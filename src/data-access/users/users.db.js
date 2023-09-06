@@ -12,7 +12,7 @@ export default function makeUserDb(model) {
   }
 
   async function getByEmail({ email }) {
-    const user = model.findPne({ email });
+    const user = model.findOne({ email });
 
     return user;
   }
