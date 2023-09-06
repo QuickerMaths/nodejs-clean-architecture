@@ -1,7 +1,7 @@
 import Ajv from "ajv";
 import makeNoteValidation from "./note-validation.validation.js";
-import noteSchema from "./schemas/create-note.validation-schema.js";
-import userSchema from "./schemas/create-user.validation-schema.js";
+import noteSchema from "./schemas/note.validation-schema.js";
+import userSchema from "./schemas/user.validation-schema.js";
 import makeUserValidation from "./user-validation.validation.js";
 
 const ajv = new Ajv();
