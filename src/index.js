@@ -1,14 +1,12 @@
 import "dotenv/config";
 import express from "express";
 import db from "../db/index.js";
-import expressCallback from "./helpers/expressCallback.js";
-import notesController from "./controllers/notes/index.controller.js";
+import notesRouter from "./routes/notes.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 import pino from "pino-http";
 import loggerOptions, { logger } from "./helpers/logger.js";
 
 //TODO: Implement delete, update and get by id routes
-//TODO: Add some route handling
 //TODO: Add users and authentication
 //TODO: Implement initial database set up
 //TODO: Add tests
@@ -19,8 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(pino(loggerOptions));
 
-app.get("/", expressCallback(notesController.getNotes));
-app.post("/", expressCallback(notesController.postNote));
+app.use("/notes", notesRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({
