@@ -13,7 +13,7 @@ const logger = pino({
   },
 });
 
-const logLevels = (req, res, err) => {
+const customLogLevel = (req, res, err) => {
   if (res.statusCode >= 400 && res.statusCode < 500) {
     return "error";
   } else if (res.statusCode >= 500 || err) {
@@ -24,11 +24,12 @@ const logLevels = (req, res, err) => {
   return "info";
 };
 
-const loggerMessage = (req, res) => {
+const customSuccessMessage = (req, res) => {
   if (res.statusCode >= 400 && res.statusCode < 500) {
     return `Request failed with ${res.statusCode} statusCode`;
   }
   return `Request completed successfully with ${res.statusCode} statusCode`;
 };
 
-export { logger, logLevels, loggerMessage };
+export default { logger, customLogLevel, customSuccessMessage };
+export { logger };

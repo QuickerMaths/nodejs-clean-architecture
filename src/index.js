@@ -5,7 +5,7 @@ import expressCallback from "./helpers/expressCallback.js";
 import notesController from "./controllers/notes/index.controller.js";
 import errorHandler from "./helpers/errorHandler.js";
 import pino from "pino-http";
-import { logger, logLevels, loggerMessage } from "./helpers/logger.js";
+import loggerOptions, { logger } from "./helpers/logger.js";
 
 //TODO: Implement delete, update and get by id routes
 //TODO: Add some route handling
@@ -17,13 +17,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  pino({
-    logger,
-    customLogLevel: logLevels,
-    customSuccessMessage: loggerMessage,
-  })
-);
+app.use(pino(loggerOptions));
 
 app.get("/", expressCallback(notesController.getNotes));
 app.post("/", expressCallback(notesController.postNote));
