@@ -5,8 +5,8 @@ export default function makeNotesDb(model) {
     return notes;
   }
 
-  async function insert({ title, content, important }) {
-    const note = await model.create({ title, content, important });
+  async function insert({ ...noteData }) {
+    const note = await model.create({ ...noteData });
 
     return note;
   }
