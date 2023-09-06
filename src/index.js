@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import db from "../db/index.js";
 import notesRouter from "./routes/notes.routes.js";
+import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 import pino from "pino-http";
 import loggerOptions, { logger } from "./helpers/logger.js";
@@ -18,17 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(pino(loggerOptions));
 
 app.use("/notes", notesRouter);
-
-app.use("*", (req, res) => {
-  res.status(404).json({
-    success: "false",
-    message: "Page not found",
-    error: {
-      statusCode: 404,
-      message: "You reached a route that is not defined on this server",
-    },
-  });
-});
+app.use(notFound);
 
 app.use((err, req, res, next) => {
   if (!errorHandler.isTrustedError(err)) {
