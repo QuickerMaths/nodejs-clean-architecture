@@ -8,7 +8,7 @@ export default function makeLoginUser(usersDb, authService) {
       throw new UnauthorizedError("Unauthorized", 403, "Invalid email.", true);
     }
 
-    const isValid = await authService().compare(password, user.password);
+    const isValid = await authService.hash.compare(password, user.password);
 
     if (!isValid) {
       throw new UnauthorizedError(
@@ -19,9 +19,16 @@ export default function makeLoginUser(usersDb, authService) {
       );
     }
 
+    // TODO: Send this in httpsOnly cookie
+    const token = authService.jwt.generateToken({
+      email: user.email,
+      password: user.password,
+    });
+
     return {
       username: user.username,
       email: user.email,
+      token,
     };
   };
 }

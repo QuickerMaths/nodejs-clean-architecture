@@ -1,12 +1,13 @@
 import "dotenv/config";
 import express from "express";
+import cors from "cors";
+import pino from "pino-http";
 import db from "../db/index.js";
+import loggerOptions, { logger } from "./helpers/logger.js";
 import usersRouter from "./routes/users.routes.js";
 import notesRouter from "./routes/notes.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
-import pino from "pino-http";
-import loggerOptions, { logger } from "./helpers/logger.js";
 
 //TODO: Implement delete, update and get by id routes
 //TODO: Add users and authentication
@@ -18,6 +19,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(pino(loggerOptions));
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
 app.use("/auth", usersRouter);
 app.use("/notes", notesRouter);

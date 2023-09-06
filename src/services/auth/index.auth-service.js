@@ -1,26 +1,13 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import jwtService from "./jwt.auth-service.js";
+import hashService from "./hash.auth-service.js";
 
-export default function authService() {
-  const encrypt = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-  };
+const jwt = jwtService();
+const hash = hashService();
 
-  const compare = (password, hashedPassword) =>
-    bcrypt.compareSync(password, hashedPassword);
+const authService = Object.freeze({
+  jwt,
+  hash,
+});
 
-  const verify = (token) => jwt.verify(token, process.env.JWT_SECRET);
-
-  const generateToken = (payload) =>
-    jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: 360000,
-    });
-
-  return Object.freeze({
-    encrypt,
-    compare,
-    verify,
-    generateToken,
-  });
-}
+export default authService;
+export { jwt, hash };

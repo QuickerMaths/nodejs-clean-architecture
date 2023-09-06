@@ -6,6 +6,6 @@ const router = express.Router();
 
 router
   .get("/login", expressCallback(usersController.loginUser))
-  .post("/register", expressCallback(usersController.postUser));
+  .post("/signup", expressCallback(usersController.postUser));
 
 export default router;
