@@ -2,7 +2,7 @@ import { BaseError } from "../utils/errors/index.errors.js";
 
 class ErrorHandler {
   async handleError(error) {
-    console.log(error);
+    //TODO: write errors to some internal file
   }
 
   isTrustedError(error) {

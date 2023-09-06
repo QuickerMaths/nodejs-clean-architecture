@@ -1,10 +1,11 @@
 import "dotenv/config";
 import express from "express";
-import morgan from "morgan";
 import db from "../db/index.js";
 import expressCallback from "./helpers/expressCallback.js";
 import notesController from "./controllers/index.controller.js";
 import errorHandler from "./helpers/errorHandler.js";
+import pino from "pino-http";
+import { logger, logLevels, loggerMessage } from "./helpers/logger.js";
 
 //TODO: Implement delete, update and get by id routes
 //TODO: Add some route handling
@@ -16,7 +17,13 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(morgan("common"));
+app.use(
+  pino({
+    logger,
+    customLogLevel: logLevels,
+    customSuccessMessage: loggerMessage,
+  })
+);
 
 app.get("/", expressCallback(notesController.getNotes));
 app.post("/", expressCallback(notesController.postNote));
@@ -43,13 +50,14 @@ app.use((err, req, res, next) => {
 process.on("uncaughtException", (error) => {
   errorHandler.handleError(error);
   if (!errorHandler.isTrustedError(error)) {
+    logger.fatal("Server is shutting down");
     process.exit(1);
   }
 });
 
 db.once("open", () => {
   app.listen(process.env.PORT, () => {
-    console.log(`Server is listening on port ${process.env.PORT}`);
-    console.log(`Database is connected to db`);
+    logger.info(`Server is listening on port ${process.env.PORT}`);
+    logger.info(`Database is connected to db`);
   });
 });
