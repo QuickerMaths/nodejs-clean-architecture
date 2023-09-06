@@ -8,7 +8,7 @@ export default function makeCreateUser(usersDb, validate, authService) {
 
     validate(user);
 
-    const hashedPassword = await authService.encrypt(password);
+    const hashedPassword = await authService().encrypt(password);
 
     await usersDb.insert({
       username,
@@ -16,6 +16,9 @@ export default function makeCreateUser(usersDb, validate, authService) {
       password: hashedPassword,
     });
 
-    return user;
+    return {
+      username,
+      email,
+    };
   };
 }

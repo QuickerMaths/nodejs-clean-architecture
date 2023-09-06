@@ -3,11 +3,11 @@ import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
-    userName: {
+    username: {
       type: String,
       required: [true, "Username is required"],
-      minlength: [3, "Username must be at least 3 characters long"],
-      maxlength: [20, "Username must be at most 20 characters long"],
+      minLength: [3, "Username must be at least 3 characters long"],
+      maxLength: [20, "Username must be at most 20 characters long"],
     },
     email: {
       type: String,
@@ -18,8 +18,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "Password must be at least 6 characters long"],
-      maxlength: [20, "Password must be at most 20 characters long"],
     },
   },
   { timestamps: true }

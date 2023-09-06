@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(pino(loggerOptions));
 
+app.use("/auth", usersRouter);
 app.use("/notes", notesRouter);
 app.use(notFound);
 
@@ -32,7 +33,9 @@ app.use((err, req, res, next) => {
 
 process.on("uncaughtException", (error) => {
   errorHandler.handleError(error);
+
   if (!errorHandler.isTrustedError(error)) {
+    logger.error(error);
     logger.fatal("Server is shutting down");
     process.exit(1);
   }

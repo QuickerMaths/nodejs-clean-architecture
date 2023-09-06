@@ -1,6 +1,7 @@
 import {
   FieldRequiredError,
   ValidationError,
+  InvalidEmail,
 } from "../../utils/errors/index.errors.js";
 
 export default function makeUserValidation(validator, schema) {
@@ -25,6 +26,13 @@ export default function makeUserValidation(validator, schema) {
             "Validation Error",
             400,
             `${error.instancePath} ${error.message}`,
+            true
+          );
+        } else if (error.keyword === "format") {
+          throw new InvalidEmail(
+            "Invalid Email Format",
+            400,
+            `${error.params.format} ${error.message}`,
             true
           );
         }
