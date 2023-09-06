@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "../../helpers/errors.js";
+import { UnauthorizedError } from "../../utils/errors/index.errors.js";
 
 export default function makeLoginUser(usersDb, authService) {
   return async function loginUser({ email, password } = {}) {
