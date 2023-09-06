@@ -3,6 +3,7 @@ import { ValidationError } from "./ValidationError.js";
 import { FieldRequiredError } from "./FieldRequiredError.js";
 import { InvalidEmail } from "./InvalidEmail.js";
 import { DuplicateError } from "./DuplicateError.js";
+import { UnauthorizedError } from "./UnauthorizedError.js";
 
 export {
   BaseError,
@@ -10,4 +11,5 @@ export {
   FieldRequiredError,
   InvalidEmail,
   DuplicateError,
+  UnauthorizedError,
 };
