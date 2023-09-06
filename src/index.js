@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import db from "../db/index.js";
+import usersRouter from "./routes/users.routes.js";
 import notesRouter from "./routes/notes.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
