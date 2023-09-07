@@ -21,7 +21,7 @@ export default function makeLoginUser(usersDb, authService) {
 
     // TODO: Send this in httpsOnly cookie
     const { accessToken, refreshToken } =
-      await authService.jwt.generateTokePair({
+      await authService.jwt.generateTokenPair({
         id: user._id,
         username: user.username,
         email: user.email,

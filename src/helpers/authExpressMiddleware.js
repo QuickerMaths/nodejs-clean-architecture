@@ -12,13 +12,16 @@ const authExpressMiddleware = (authService) => (req, res, next) => {
 
   const decoded = authService.jwt.verifyToken(token);
 
-  console.log(decoded);
-
   if (!decoded) {
     throw new ForbiddenError("Forbidden", 403, "Token Invalid.", true);
   }
 
+  if (decoded === "expired") {
+    // here should be a axios request to refresh token
+  }
+
   req.user = decoded;
+  req.skipRefresh = true;
 
   next();
 };

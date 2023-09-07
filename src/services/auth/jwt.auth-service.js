@@ -1,22 +1,27 @@
 import jwt from "jsonwebtoken";
 import config from "../../config/config.js";
-import { BaseError } from "../../utils/errors/index.errors.js";
 
 export default function jwtService() {
   const verifyToken = (token) =>
     jwt.verify(token, config.jwt.jwtSecret, (err, decoded) => {
-      if (err && err.name === "TokenExpiredError") console.log(err);
+      if (err && err.name === "TokenExpiredError") return "expired";
+      if (err) return;
       return decoded;
     });
 
   const verifyRefreshToken = (token) => {
     return jwt.verify(token, config.jwt.jwtRefreshSecret, (err, decoded) => {
-      //TODO: create custom error
-      if (err === "TokenExpiredError")
-        throw new BaseError("TokenExpiredError", 403, "token expired", true);
+      if (err && err.name === "TokenExpiredError") return "expired";
+      if (err) return;
 
-      return jwt.sign({ ...decoded }, config.jwt.jwtRefreshSecret, {
-        expiresIn: config.jwt.jwtRefreshExpiration,
+      const toSign = {
+        id: decoded.id,
+        username: decoded.username,
+        email: decoded.email,
+      };
+
+      return jwt.sign(toSign, config.jwt.jwtSecret, {
+        expiresIn: config.jwt.jwtExpiration,
       });
     });
   };
@@ -32,7 +37,7 @@ export default function jwtService() {
     });
   };
 
-  const generateTokePair = (payload) => {
+  const generateTokenPair = (payload) => {
     const accessToken = generateToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
@@ -47,6 +52,6 @@ export default function jwtService() {
     verifyRefreshToken,
     generateToken,
     generateRefreshToken,
-    generateTokePair,
+    generateTokenPair,
   });
 }

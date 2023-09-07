@@ -1,7 +1,7 @@
 import express from "express";
 import notesController from "../controllers/notes/index.controller.js";
 import expressCallback from "../helpers/expressCallback.js";
-import authExpressMiddleware from "../helpers/authExpreesMiddleware.js";
+import authExpressMiddleware from "../helpers/authExpressMiddleware.js";
 
 const router = express.Router();
 

@@ -25,7 +25,7 @@ export default (controller) => (req, res, next) => {
         res.set(httpResponse.headers);
       }
 
-      res.status(httpResponse.statusCode).send(httpResponse.body);
+      return res.status(httpResponse.statusCode).send(httpResponse.body);
     })
     .catch(next);
 };
