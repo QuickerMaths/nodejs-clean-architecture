@@ -11,8 +11,8 @@ export default function makeRefreshTokenDb(model) {
     return {};
   }
 
-  async function findById({ id }) {
-    const refreshToken = await model.findById(id);
+  async function findByProperty({ user }) {
+    const refreshToken = await model.findOne({ user });
 
     return refreshToken;
   }
@@ -20,6 +20,6 @@ export default function makeRefreshTokenDb(model) {
   return Object.freeze({
     insert,
     remove,
-    findById,
+    findByProperty,
   });
 }
