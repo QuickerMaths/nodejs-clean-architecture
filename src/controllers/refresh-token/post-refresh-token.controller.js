@@ -1,6 +1,9 @@
+import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
+
 export default function makePostRefreshToken(verifyRefreshToken) {
   return async function postRefreshToken(httpRequest) {
-    const refreshHeader = req.headers.refresh || req.headers.Refresh;
+    const refreshHeader =
+      httpRequest.headers.refresh || httpRequest.headers.Refresh;
 
     if (!refreshHeader || !refreshHeader?.startsWith("Bearer ")) {
       throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);

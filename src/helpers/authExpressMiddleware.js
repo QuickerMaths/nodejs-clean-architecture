@@ -17,11 +17,17 @@ const authExpressMiddleware = (authService) => (req, res, next) => {
   }
 
   if (decoded === "expired") {
-    // here should be a axios request to refresh token
+    axios
+      .post("http://localhost:3000/refresh-token", {
+        refreshToken: req.cookies.refreshToken,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch(next);
   }
 
   req.user = decoded;
-  req.skipRefresh = true;
 
   next();
 };
