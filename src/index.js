@@ -6,6 +6,7 @@ import db from "../db/index.js";
 import loggerOptions, { logger } from "./helpers/logger.js";
 import usersRouter from "./routes/users.routes.js";
 import notesRouter from "./routes/notes.routes.js";
+import refreshTokenRouter from "./routes/refresh-token.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 
@@ -28,6 +29,7 @@ app.use(pino(loggerOptions));
 
 app.use("/auth", usersRouter);
 app.use("/notes", notesRouter);
+app.use("/refresh-token", refreshTokenRouter);
 app.use("*", notFound);
 
 // Error handling middleware
