@@ -37,21 +37,10 @@ export default function jwtService() {
     });
   };
 
-  const generateTokenPair = (payload) => {
-    const accessToken = generateToken(payload);
-    const refreshToken = generateRefreshToken(payload);
-
-    return {
-      accessToken,
-      refreshToken,
-    };
-  };
-
   return Object.freeze({
     verifyToken,
     verifyRefreshToken,
     generateToken,
     generateRefreshToken,
-    generateTokenPair,
   });
 }

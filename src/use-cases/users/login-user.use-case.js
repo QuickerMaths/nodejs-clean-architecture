@@ -1,6 +1,10 @@
 import { UnauthorizedError } from "../../utils/errors/index.errors.js";
 
-export default function makeLoginUser(usersDb, authService) {
+export default function makeLoginUser(
+  usersDb,
+  refreshTokenUseCase,
+  authService
+) {
   return async function loginUser({ email, password } = {}) {
     const user = await usersDb.getByEmail({ email });
 
@@ -20,16 +24,13 @@ export default function makeLoginUser(usersDb, authService) {
     }
 
     // TODO: Send this in httpsOnly cookie
-    const { accessToken, refreshToken } =
-      await authService.jwt.generateTokenPair({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      });
-
-    await usersDb.update({
+    const accessToken = await authService.jwt.generateToken({
       id: user._id,
-      refreshToken,
+      username: user.username,
+      email: user.email,
+    });
+    const refreshToken = await refreshTokenUseCase.createRefreshToken({
+      user: user._id,
     });
 
     return {
