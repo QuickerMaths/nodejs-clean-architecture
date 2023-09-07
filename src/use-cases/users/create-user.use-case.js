@@ -23,15 +23,16 @@ export default function makeCreateUser(usersDb, validate, authService) {
 
     const hashedPassword = await authService.hash.encrypt(password);
 
-    await usersDb.insert({
+    const newUser = await usersDb.insert({
       username,
       email,
       password: hashedPassword,
     });
 
     return {
-      username,
-      email,
+      id: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
     };
   };
 }
