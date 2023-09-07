@@ -1,13 +1,23 @@
 import jwt from "jsonwebtoken";
 import config from "../../config/config.js";
+import { BaseError } from "../../utils/errors/index.errors.js";
 
 export default function jwtService() {
-  const verifyToken = (token) => jwt.verify(token, config.jwt.jwtSecret);
+  const verifyToken = (token) =>
+    jwt.verify(token, config.jwt.jwtSecret, (err, decoded) => {
+      if (err && err.name === "TokenExpiredError") console.log(err);
+      return decoded;
+    });
 
   const verifyRefreshToken = (token) => {
     return jwt.verify(token, config.jwt.jwtRefreshSecret, (err, decoded) => {
-      if (err) throw new Error("token invalid");
-      return decoded;
+      //TODO: create custom error
+      if (err === "TokenExpiredError")
+        throw new BaseError("TokenExpiredError", 403, "token expired", true);
+
+      return jwt.sign({ ...decoded }, config.jwt.jwtRefreshSecret, {
+        expiresIn: config.jwt.jwtRefreshExpiration,
+      });
     });
   };
 

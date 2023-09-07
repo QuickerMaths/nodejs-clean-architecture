@@ -1,52 +1,26 @@
 import authService from "../services/auth/index.auth-service.js";
 import { ForbiddenError } from "../utils/errors/index.errors.js";
 
-function makeAuthExpressMiddleware(authService) {
-  return function authExpressMiddleware(req, res, next) {
-    const authHeader = req.headers.authorization || req.headers.Authorization;
+const authExpressMiddleware = (authService) => (req, res, next) => {
+  const authHeader = req.headers.authorization || req.headers.Authorization;
 
-    if (!authHeader) {
-      next(
-        new ForbiddenError(
-          "Forbidden",
-          403,
-          "Authorization header missing.",
-          true
-        )
-      );
-    }
+  if (!authHeader || !authHeader?.startsWith("Bearer ")) {
+    throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
+  }
 
-    if (!authHeader?.startsWith("Bearer ")) {
-      next(
-        new ForbiddenError(
-          "Forbidden",
-          403,
-          "Authorization header missing.",
-          true
-        )
-      );
-    }
-    const token = authHeader.split(" ")[1];
+  const token = authHeader.split(" ")[1];
 
-    const decoded = authService.jwt.verifyToken(token);
+  const decoded = authService.jwt.verifyToken(token);
 
-    if (!decoded) {
-      next(
-        new ForbiddenError(
-          "Forbidden",
-          403,
-          "Authorization header missing.",
-          true
-        )
-      );
-    }
+  console.log(decoded);
 
-    req.user = decoded;
+  if (!decoded) {
+    throw new ForbiddenError("Forbidden", 403, "Token Invalid.", true);
+  }
 
-    next();
-  };
-}
+  req.user = decoded;
 
-const authExpressMiddleware = makeAuthExpressMiddleware(authService);
+  next();
+};
 
-export default authExpressMiddleware;
+export default authExpressMiddleware(authService);

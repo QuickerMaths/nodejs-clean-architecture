@@ -1,8 +1,11 @@
 import { BaseError } from "../utils/errors/index.errors.js";
+import { logger } from "./logger.js";
 
 class ErrorHandler {
   async handleError(error) {
     //TODO: write errors to some internal file
+
+    logger.error(error);
   }
 
   isTrustedError(error) {

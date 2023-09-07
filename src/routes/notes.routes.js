@@ -6,11 +6,7 @@ import authExpressMiddleware from "../helpers/authExpreesMiddleware.js";
 const router = express.Router();
 
 router
-  .get("/", [authExpressMiddleware], expressCallback(notesController.getNotes))
-  .post(
-    "/",
-    [authExpressMiddleware],
-    expressCallback(notesController.postNote)
-  );
+  .get("/", authExpressMiddleware, expressCallback(notesController.getNotes))
+  .post("/", authExpressMiddleware, expressCallback(notesController.postNote));
 
 export default router;

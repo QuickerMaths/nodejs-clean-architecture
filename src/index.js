@@ -33,18 +33,34 @@ app.use(notFound);
 // Error handling middleware
 
 app.use((err, req, res, next) => {
+  errorHandler.handleError(err);
+
   if (!errorHandler.isTrustedError(err)) {
-    next(err);
+    res.status(500).send({
+      statusCode: 500,
+      body: {
+        error: "Internal Server Error",
+      },
+    });
+
+    logger.fatal("Server is shutting down");
+    process.exit(1);
   }
 
-  errorHandler.handleError(err);
+  res.status(err.statusCode).send({
+    statusCode: err.statusCode,
+    body: {
+      error: err.message,
+    },
+  });
 });
+
+// Uncaught exception handling
 
 process.on("uncaughtException", (error) => {
   errorHandler.handleError(error);
 
   if (!errorHandler.isTrustedError(error)) {
-    logger.error(error);
     logger.fatal("Server is shutting down");
     process.exit(1);
   }

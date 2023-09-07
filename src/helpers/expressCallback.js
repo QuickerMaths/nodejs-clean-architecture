@@ -27,21 +27,5 @@ export default (controller) => (req, res, next) => {
 
       res.status(httpResponse.statusCode).send(httpResponse.body);
     })
-    .catch((err) => {
-      if (err.isOperational) {
-        res.status(err.statusCode).send({
-          statusCode: err.statusCode,
-          body: {
-            error: err.message,
-          },
-        });
-      } else {
-        res.status(500).send({
-          statusCode: 500,
-          body: {
-            error: "Internal Server Error",
-          },
-        });
-      }
-    });
+    .catch(next);
 };
