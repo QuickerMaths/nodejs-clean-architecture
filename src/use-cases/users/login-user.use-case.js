@@ -23,7 +23,6 @@ export default function makeLoginUser(
       );
     }
 
-    // TODO: Send this in httpsOnly cookie
     const accessToken = await authService.jwt.generateToken({
       id: user._id,
       username: user.username,

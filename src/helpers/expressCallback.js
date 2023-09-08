@@ -25,6 +25,23 @@ export default (controller) => (req, res, next) => {
         res.set(httpResponse.headers);
       }
 
+      if (
+        httpResponse.body.user.accessToken &&
+        httpResponse.body.user.refreshToken
+      ) {
+        res.cookie("refreshToken", httpResponse.body.user.refreshToken, {
+          httpOnly: true,
+          secure: false,
+        });
+        delete httpResponse.body.user.refreshToken;
+
+        res.cookie("accessToken", httpResponse.body.user.accessToken, {
+          httpOnly: true,
+          secure: false,
+        });
+        delete httpResponse.body.user.accessToken;
+      }
+
       return res.status(httpResponse.statusCode).send(httpResponse.body);
     })
     .catch(next);
