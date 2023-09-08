@@ -2,8 +2,8 @@ import { UnauthorizedError } from "../../utils/errors/index.errors.js";
 
 export default function makeLoginUser(
   usersDb,
-  refreshTokenUseCase,
-  authService
+  authService,
+  refreshTokenUseCase
 ) {
   return async function loginUser({ email, password } = {}) {
     const user = await usersDb.getByEmail({ email });

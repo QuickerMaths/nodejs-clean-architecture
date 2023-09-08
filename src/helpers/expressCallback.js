@@ -27,6 +27,7 @@ export default (controller) => (req, res, next) => {
       }
 
       if (httpResponse.body.hasOwnProperty("tokenPair")) {
+        //TODO: check why its not setting new accessCookie after generating it in refresh route
         const { refreshToken, accessToken } = httpResponse.body.tokenPair;
 
         res.clearCookie("accessToken");

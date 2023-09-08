@@ -11,7 +11,7 @@ import refreshTokenRouter from "./routes/refresh-token.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 
-//TODO: Finish testing refresh token route and implement sending tokens in httpOnly cookies
+//TODO: Implement logout route
 //TODO: Implement delete, update and get by id routes
 //TODO: Implement initial database set up
 //TODO: Add tests
