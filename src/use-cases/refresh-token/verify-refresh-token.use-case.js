@@ -1,7 +1,7 @@
 import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
 export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
-  return async function verifyRefreshToken({ requestToken }) {
+  return async function verifyRefreshToken(requestToken) {
     const isTokenInDb = await refreshTokenDb.findByProperty({
       token: requestToken,
     });
@@ -31,7 +31,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
 
     return {
       accessToken: decoded,
-      requestToken,
+      refreshToken: requestToken,
     };
   };
 }

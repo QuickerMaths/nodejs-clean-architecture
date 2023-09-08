@@ -1,16 +1,15 @@
+import axios from "axios";
 import authService from "../services/auth/index.auth-service.js";
 import { ForbiddenError } from "../utils/errors/index.errors.js";
 
 const authExpressMiddleware = (authService) => (req, res, next) => {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
+  const { accessToken, refreshToken } = req.cookies;
 
-  if (!authHeader || !authHeader?.startsWith("Bearer ")) {
+  if (!accessToken || !refreshToken) {
     throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
   }
 
-  const token = authHeader.split(" ")[1];
-
-  const decoded = authService.jwt.verifyToken(token);
+  const decoded = authService.jwt.verifyToken(accessToken);
 
   if (!decoded) {
     throw new ForbiddenError("Forbidden", 403, "Token Invalid.", true);
@@ -18,11 +17,14 @@ const authExpressMiddleware = (authService) => (req, res, next) => {
 
   if (decoded === "expired") {
     axios
-      .post("http://localhost:3000/refresh-token", {
-        refreshToken: req.cookies.refreshToken,
-      })
-      .then((res) => {
-        console.log(res);
+      .get("http://localhost:3000/refresh-token", {
+        withCredentials: true,
+        headers: {
+          Cookie: [
+            `accessToken=${accessToken}`,
+            `refreshToken=${refreshToken}`,
+          ],
+        },
       })
       .catch(next);
   }

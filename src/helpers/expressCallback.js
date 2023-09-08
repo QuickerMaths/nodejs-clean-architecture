@@ -8,6 +8,7 @@ export default (controller) => (req, res, next) => {
     path: req.path,
     user: req.user,
     logger: req.logger,
+    cookies: req.cookies,
     source: {
       ip: req.ip,
       browser: req.get("User-Agent"),
@@ -21,25 +22,25 @@ export default (controller) => (req, res, next) => {
 
   controller(httpRequest)
     .then((httpResponse) => {
-      if (httpResponse.headers) {
+      if (httpResponse?.headers) {
         res.set(httpResponse.headers);
       }
 
-      if (
-        httpResponse.body.user.accessToken &&
-        httpResponse.body.user.refreshToken
-      ) {
-        res.cookie("refreshToken", httpResponse.body.user.refreshToken, {
-          httpOnly: true,
-          secure: false,
-        });
-        delete httpResponse.body.user.refreshToken;
+      if (httpResponse.body.hasOwnProperty("tokenPair")) {
+        const { refreshToken, accessToken } = httpResponse.body.tokenPair;
 
-        res.cookie("accessToken", httpResponse.body.user.accessToken, {
+        res.clearCookie("accessToken");
+
+        res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: false,
         });
-        delete httpResponse.body.user.accessToken;
+        res.cookie("accessToken", accessToken, {
+          httpOnly: true,
+          secure: false,
+        });
+
+        delete httpResponse.body;
       }
 
       return res.status(httpResponse.statusCode).send(httpResponse.body);

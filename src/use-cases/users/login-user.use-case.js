@@ -28,16 +28,13 @@ export default function makeLoginUser(
       username: user.username,
       email: user.email,
     });
-    const refreshToken = await refreshTokenUseCase.createRefreshToken({
+    const { token } = await refreshTokenUseCase.createRefreshToken({
       user: user._id,
     });
 
     return {
-      id: user._id,
-      username: user.username,
-      email: user.email,
       accessToken,
-      refreshToken,
+      refreshToken: token,
     };
   };
 }
