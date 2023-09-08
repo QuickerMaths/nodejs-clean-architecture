@@ -2,6 +2,7 @@ import config from "./config/config.js";
 import express from "express";
 import cors from "cors";
 import pino from "pino-http";
+import cookieParser from "cookie-parser";
 import db from "../db/index.js";
 import loggerOptions, { logger } from "./helpers/logger.js";
 import usersRouter from "./routes/users.routes.js";
@@ -10,6 +11,7 @@ import refreshTokenRouter from "./routes/refresh-token.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 
+//TODO: Finish testing refresh token route and implement sending tokens in httpOnly cookies
 //TODO: Implement delete, update and get by id routes
 //TODO: Implement initial database set up
 //TODO: Add tests
@@ -23,6 +25,7 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
+app.use(cookieParser());
 app.use(pino(loggerOptions));
 
 // Routes
