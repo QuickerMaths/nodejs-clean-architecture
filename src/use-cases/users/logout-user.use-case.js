@@ -1,22 +1,22 @@
-export default function makeLogoutUser(
-  usersDb,
-  authService,
-  refreshTokenUseCase
-) {
+import { UnauthorizedError } from "../../utils/errors/UnauthorizedError.js";
+
+export default function makeLogoutUser(usersDb, authService, refreshTokenDb) {
+  //TODO: fix this to actually remove refresh token from db
   return async function logoutUser(refreshToken) {
-    const decoded = await authService.verifyRefreshToken(refreshToken);
+    const { id } = await authService.jwt.decodeToken(refreshToken);
 
-    if (!decoded || decoded === "expired") {
-      return {};
-    }
-
-    const user = await usersDb.getById(decoded.id);
+    const user = await usersDb.getById({ id });
 
     if (!user) {
-      return {};
+      throw new UnauthorizedError(
+        "Unauthorized",
+        401,
+        "User does not exist",
+        true
+      );
     }
 
-    await refreshTokenUseCase.deleteRefreshToken(refreshToken);
+    await refreshTokenDb.remove(refreshToken);
 
     return {};
   };

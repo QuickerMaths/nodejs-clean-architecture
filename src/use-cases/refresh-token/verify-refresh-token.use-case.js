@@ -6,7 +6,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       token: requestToken,
     });
 
-    if (!isTokenInDb) {
+    if (!isTokenInDb === requestToken) {
       throw new ForbiddenError("Forbidden.", 403, "Invalid refresh token.");
     }
 
@@ -21,6 +21,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
         true
       );
     } else if (decoded === "expired") {
+      await refreshTokenDb.remove(requestToken);
       throw new ForbiddenError(
         "Forbidden.",
         403,
@@ -29,6 +30,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       );
     }
 
+    console.log("bas");
     return {
       accessToken: decoded,
       refreshToken: requestToken,

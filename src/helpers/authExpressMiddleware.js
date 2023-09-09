@@ -27,8 +27,11 @@ const authExpressMiddleware = (authService) => (req, res, next) => {
         },
       })
       .catch(next);
+
+    return;
   }
 
+  //TODO: why if error occures above this line, this line is executed?
   req.user = decoded;
 
   next();

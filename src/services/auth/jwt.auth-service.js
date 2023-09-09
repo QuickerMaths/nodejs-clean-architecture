@@ -26,6 +26,8 @@ export default function jwtService() {
     });
   };
 
+  const decodeToken = (token) => jwt.decode(token);
+
   const generateToken = (payload) =>
     jwt.sign(payload, config.jwt.jwtSecret, {
       expiresIn: config.jwt.jwtExpiration,
@@ -40,6 +42,7 @@ export default function jwtService() {
   return Object.freeze({
     verifyToken,
     verifyRefreshToken,
+    decodeToken,
     generateToken,
     generateRefreshToken,
   });

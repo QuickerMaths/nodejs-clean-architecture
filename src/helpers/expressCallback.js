@@ -42,6 +42,9 @@ export default (controller) => (req, res, next) => {
         });
 
         delete httpResponse.body;
+      } else if (httpResponse.body === {}) {
+        res.clearCookie("refreshToken");
+        res.clearCookie("accessToken");
       }
 
       return res.status(httpResponse.statusCode).send(httpResponse.body);

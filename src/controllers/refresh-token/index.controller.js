@@ -11,3 +11,5 @@ const refreshTokenController = Object.freeze({
 
 export default refreshTokenController;
 export { postRefreshToken };
+
+//TODO: rename file to get

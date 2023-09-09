@@ -9,7 +9,7 @@ export default function makeLoginUser(
     const user = await usersDb.getByEmail({ email });
 
     if (!user) {
-      throw new UnauthorizedError("Unauthorized", 403, "Invalid email.", true);
+      throw new UnauthorizedError("Unauthorized", 401, "Invalid email.", true);
     }
 
     const isValid = await authService.hash.compare(password, user.password);
@@ -17,7 +17,7 @@ export default function makeLoginUser(
     if (!isValid) {
       throw new UnauthorizedError(
         "Unauthorized",
-        403,
+        401,
         "Invalid password.",
         true
       );
@@ -28,13 +28,16 @@ export default function makeLoginUser(
       username: user.username,
       email: user.email,
     });
-    const { token } = await refreshTokenUseCase.createRefreshToken({
-      user: user._id,
-    });
+    const { token: refreshToken } =
+      await refreshTokenUseCase.createRefreshToken({
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      });
 
     return {
       accessToken,
-      refreshToken: token,
+      refreshToken,
     };
   };
 }

@@ -1,18 +1,20 @@
 export default function makeRefreshTokenDb(model) {
   async function insert({ token, id }) {
-    const refreshToken = await model.create({ token, userId: id });
+    const refreshToken = await model.create({ token, user: id });
 
     return refreshToken;
   }
 
-  async function remove({ id }) {
-    await model.findByIdAndDelete(id);
+  async function remove({ token }) {
+    await model.findOneAndDelete({ token });
+
+    console.log(token);
 
     return {};
   }
 
-  async function findByProperty({ user }) {
-    const refreshToken = await model.findOne({ user });
+  async function findByProperty({ property }) {
+    const refreshToken = await model.findOne({ property });
 
     return refreshToken;
   }

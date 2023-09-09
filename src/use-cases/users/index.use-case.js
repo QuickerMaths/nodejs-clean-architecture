@@ -5,9 +5,10 @@ import makeLoginUser from "./login-user.use-case.js";
 import makeCreateUser from "./create-user.use-case.js";
 import makeLogoutUser from "./logout-user.use-case.js";
 import refreshTokenUseCase from "../refresh-token/index.use-case.js";
+import refreshTokenDb from "../../data-access/refresh-token/index.db.js";
 
-const loginUser = makeLoginUser(usersDb, refreshTokenUseCase, authService);
-const logoutUser = makeLogoutUser(usersDb, refreshTokenUseCase, authService);
+const loginUser = makeLoginUser(usersDb, authService, refreshTokenUseCase);
+const logoutUser = makeLogoutUser(usersDb, authService, refreshTokenDb);
 const createUser = makeCreateUser(
   usersDb,
   validations.userValidation,
