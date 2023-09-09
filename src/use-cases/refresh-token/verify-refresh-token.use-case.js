@@ -30,10 +30,11 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       );
     }
 
-    console.log("bas");
+    //This gets executed after even thought the error is thrown
+    // console.log("bas");
+
     return {
-      accessToken: decoded,
-      refreshToken: requestToken,
+      decoded,
     };
   };
 }

@@ -26,25 +26,10 @@ export default (controller) => (req, res, next) => {
         res.set(httpResponse.headers);
       }
 
-      if (httpResponse.body.hasOwnProperty("tokenPair")) {
-        //TODO: check why its not setting new accessCookie after generating it in refresh route
-        const { refreshToken, accessToken } = httpResponse.body.tokenPair;
-
-        res.clearCookie("accessToken");
-
-        res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure: false,
+      if (httpResponse?.cookies) {
+        httpResponse.cookies.forEach((cookie) => {
+          res.cookie(cookie.name, cookie.value, cookie.options);
         });
-        res.cookie("accessToken", accessToken, {
-          httpOnly: true,
-          secure: false,
-        });
-
-        delete httpResponse.body;
-      } else if (httpResponse.body === {}) {
-        res.clearCookie("refreshToken");
-        res.clearCookie("accessToken");
       }
 
       return res.status(httpResponse.statusCode).send(httpResponse.body);

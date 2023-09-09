@@ -7,7 +7,23 @@ export default function makeLoginGetUser(loginUser) {
 
     return {
       statusCode: 200,
-      body: { tokenPair },
+      cookies: [
+        {
+          name: "refreshToken",
+          value: tokenPair.refreshToken,
+          options: {
+            httpOnly: true,
+          },
+        },
+        {
+          name: "accessToken",
+          value: tokenPair.accessToken,
+          options: {
+            httpOnly: true,
+          },
+        },
+      ],
+      body: {},
     };
   };
 }

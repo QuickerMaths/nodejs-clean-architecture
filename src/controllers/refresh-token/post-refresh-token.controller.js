@@ -8,13 +8,27 @@ export default function makePostRefreshToken(verifyRefreshToken) {
       throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
     }
 
-    const tokenPair = await verifyRefreshToken(refreshToken);
+    const { decoded: accessToken } = await verifyRefreshToken(refreshToken);
 
     return {
       statusCode: 200,
-      body: {
-        tokenPair,
-      },
+      cookies: [
+        {
+          name: "refreshToken",
+          value: refreshToken,
+          options: {
+            httpOnly: true,
+          },
+        },
+        {
+          name: "accessToken",
+          value: accessToken,
+          options: {
+            httpOnly: true,
+          },
+        },
+      ],
+      body: {},
     };
   };
 }

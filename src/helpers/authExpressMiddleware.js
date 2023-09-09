@@ -2,7 +2,7 @@ import axios from "axios";
 import authService from "../services/auth/index.auth-service.js";
 import { ForbiddenError } from "../utils/errors/index.errors.js";
 
-const authExpressMiddleware = (authService) => (req, res, next) => {
+const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
 
   if (!accessToken || !refreshToken) {
@@ -16,22 +16,25 @@ const authExpressMiddleware = (authService) => (req, res, next) => {
   }
 
   if (decoded === "expired") {
-    axios
-      .get("http://localhost:3000/refresh-token", {
+    res.clearCookie("accessToken");
+
+    try {
+      await axios.get("http://localhost:3000/refresh-token", {
         withCredentials: true,
         headers: {
           Cookie: [
-            `accessToken=${accessToken}`,
             `refreshToken=${refreshToken}`,
+            `accessToken=${accessToken}`,
           ],
         },
-      })
-      .catch(next);
+      });
 
-    return;
+      // res.redirect(req.originalUrl);
+    } catch (err) {
+      next(err);
+    }
   }
 
-  //TODO: why if error occures above this line, this line is executed?
   req.user = decoded;
 
   next();
