@@ -1,5 +1,6 @@
 export default function makeLoginGetUser(loginUser) {
   return async function loginGetUser(httpRequest) {
+    console.log(httpRequest);
     const tokenPair = await loginUser({
       email: httpRequest.body.email,
       password: httpRequest.body.password,
@@ -7,6 +8,10 @@ export default function makeLoginGetUser(loginUser) {
 
     return {
       statusCode: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Allow-Control-Allow-Origin": "*",
+      },
       cookies: [
         {
           name: "refreshToken",

@@ -22,13 +22,13 @@ export default (controller) => (req, res, next) => {
 
   controller(httpRequest)
     .then((httpResponse) => {
-      if (httpResponse?.headers) {
-        res.set(httpResponse.headers);
-      }
+      res.set(httpResponse.headers);
+
+      //FIXME: Everything works good but only when cookies are set for the first time, later accessToken that is generated from refreshToken route is not being overwritten
 
       if (httpResponse?.cookies) {
-        httpResponse.cookies.forEach((cookie) => {
-          res.cookie(cookie.name, cookie.value, cookie.options);
+        httpResponse.cookies.forEach(({ name, value, options }) => {
+          res.cookie(name, value, options);
         });
       }
 

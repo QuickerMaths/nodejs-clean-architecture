@@ -23,6 +23,8 @@ export default function makeLoginUser(
       );
     }
 
+    //TODO: check refreshToken related to user already exists in db, if so, verify it
+
     const accessToken = await authService.jwt.generateToken({
       id: user._id,
       username: user.username,
