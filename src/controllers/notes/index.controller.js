@@ -5,7 +5,7 @@ import notesUseCase from "../../use-cases/notes/index.use-case.js";
 
 const getNotes = makeGetNotes({ findNotes: notesUseCase.findNotes });
 const postNote = makePostNote({ addNote: notesUseCase.createNote });
-const deleteNote = makeDeleteNote({ removeNote: notesUseCase.deleteNote });
+const deleteNote = makeDeleteNote({ removeNote: notesUseCase.removeNote });
 
 const notesController = Object.freeze({
   getNotes,
@@ -14,4 +14,4 @@ const notesController = Object.freeze({
 });
 
 export default notesController;
-export { postNote, getNotes };
+export { postNote, getNotes, deleteNote };
