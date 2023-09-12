@@ -7,6 +7,11 @@ const router = express.Router();
 
 router
   .get("/", authExpressMiddleware, expressCallback(notesController.getNotes))
-  .post("/", authExpressMiddleware, expressCallback(notesController.postNote));
+  .post("/", authExpressMiddleware, expressCallback(notesController.postNote))
+  .delete(
+    "/:id",
+    authExpressMiddleware,
+    expressCallback(notesController.deleteNote)
+  );
 
 export default router;
