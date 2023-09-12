@@ -1,6 +1,6 @@
 export default function makeNotesDb(model) {
-  async function findAll() {
-    const notes = await model.find();
+  async function findAllByUserId({ userId }) {
+    const notes = await model.find({ userId });
 
     return notes;
   }
@@ -12,7 +12,7 @@ export default function makeNotesDb(model) {
   }
 
   return Object.freeze({
-    findAll,
+    findAllByUserId,
     insert,
   });
 }
