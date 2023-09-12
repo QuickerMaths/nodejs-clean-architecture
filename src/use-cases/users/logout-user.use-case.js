@@ -1,7 +1,6 @@
 import { UnauthorizedError } from "../../utils/errors/UnauthorizedError.js";
 
 export default function makeLogoutUser(usersDb, authService, refreshTokenDb) {
-  //TODO: fix this to actually remove refresh token from db
   return async function logoutUser(refreshToken) {
     const { id } = await authService.jwt.decodeToken(refreshToken);
 
@@ -16,7 +15,7 @@ export default function makeLogoutUser(usersDb, authService, refreshTokenDb) {
       );
     }
 
-    await refreshTokenDb.remove(refreshToken);
+    await refreshTokenDb.remove({ token: refreshToken });
 
     return {};
   };

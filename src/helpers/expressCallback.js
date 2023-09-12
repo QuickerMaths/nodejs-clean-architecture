@@ -28,6 +28,11 @@ export default (controller) => (req, res, next) => {
         });
       }
 
+      if (httpResponse?.statusCode === 204) {
+        res.clearCookie("refreshToken");
+        res.clearCookie("accessToken");
+      }
+
       return res.status(httpResponse.statusCode).send(httpResponse.body);
     })
     .catch(next);

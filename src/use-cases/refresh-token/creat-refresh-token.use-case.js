@@ -6,7 +6,7 @@ export default function makeCreateRefreshToken(refreshTokenDb, authService) {
       email,
     });
 
-    const refreshToken = await refreshTokenDb.insert({ token, user: id });
+    const refreshToken = await refreshTokenDb.insert({ token, userId: id });
 
     return refreshToken;
   };

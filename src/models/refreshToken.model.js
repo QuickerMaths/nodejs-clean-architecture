@@ -5,9 +5,10 @@ const refreshTokenSchema = new mongoose.Schema({
     type: String,
     required: [true, "Token is required"],
   },
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: [true, "User ID is required"],
   },
 });
 
