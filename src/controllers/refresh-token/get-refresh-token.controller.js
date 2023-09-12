@@ -1,7 +1,7 @@
 import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
-export default function makePostRefreshToken(verifyRefreshToken) {
-  return async function postRefreshToken(httpRequest) {
+export default function makeGetRefreshToken(verifyRefreshToken) {
+  return async function getRefreshToken(httpRequest) {
     const refreshToken = httpRequest.cookies.refreshToken;
 
     if (!refreshToken) {

@@ -1,15 +1,13 @@
-import makePostRefreshToken from "./get-refresh-token.controller.js";
+import makeGetRefreshToken from "./get-refresh-token.controller.js";
 import refreshTokenUseCase from "../../use-cases/refresh-token/index.use-case.js";
 
-const postRefreshToken = makePostRefreshToken(
+const getRefreshToken = makeGetRefreshToken(
   refreshTokenUseCase.verifyRefreshToken
 );
 
 const refreshTokenController = Object.freeze({
-  postRefreshToken,
+  getRefreshToken,
 });
 
 export default refreshTokenController;
-export { postRefreshToken };
-
-//TODO: rename file to get
+export { getRefreshToken };

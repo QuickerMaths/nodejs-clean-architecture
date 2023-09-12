@@ -4,6 +4,6 @@ import expressCallback from "../helpers/expressCallback.js";
 
 const router = express.Router();
 
-router.get("/", expressCallback(refreshTokenController.postRefreshToken));
+router.get("/", expressCallback(refreshTokenController.getRefreshToken));
 
 export default router;
