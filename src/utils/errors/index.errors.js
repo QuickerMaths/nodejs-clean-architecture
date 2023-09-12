@@ -5,6 +5,7 @@ import { InvalidEmail } from "./InvalidEmail.js";
 import { DuplicateError } from "./DuplicateError.js";
 import { UnauthorizedError } from "./UnauthorizedError.js";
 import { ForbiddenError } from "./ForbiddenError.js";
+import { MissingPropertyError } from "./MissingPropertyError.js";
 
 export {
   BaseError,
@@ -14,4 +15,5 @@ export {
   DuplicateError,
   UnauthorizedError,
   ForbiddenError,
+  MissingPropertyError,
 };
