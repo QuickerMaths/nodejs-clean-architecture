@@ -1,4 +1,4 @@
-export default function makePostNote(addComment) {
+export default function makePostNote({ addNote }) {
   return async function postNote(httpRequest) {
     const toAdd = {
       title: httpRequest.body.title,
