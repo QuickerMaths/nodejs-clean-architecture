@@ -1,5 +1,5 @@
 import authService from "../services/auth/index.auth-service.js";
-import { BaseError, ForbiddenError } from "../utils/errors/index.errors.js";
+import { ForbiddenError } from "../utils/errors/index.errors.js";
 
 const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
@@ -15,21 +15,21 @@ const authExpressMiddleware = (authService) => async (req, res, next) => {
   }
 
   if (decoded === "expired") {
-    const result = await authService.refreshToken.getNewAccessToken(
-      refreshToken
-    );
-
-    if (result?.name === "AxiosError") {
-      res.clearCookie("accessToken");
-      res.clearCookie("refreshToken");
-      next(new ForbiddenError("Forbidden", 403, "Token Invalid.", true));
-    } else {
-      res.cookie("accessToken", result, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
+    await authService.refreshToken
+      .getNewAccessToken(refreshToken)
+      .then((newAccessToken) => {
+        res.cookie("accessToken", newAccessToken, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
+        next(new ForbiddenError("Forbidden", e.statusCode, e.message, true));
       });
-    }
   }
 
   req.user = decoded;

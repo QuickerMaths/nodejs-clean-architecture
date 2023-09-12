@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
 export default function refreshTokenService() {
   const getNewAccessToken = async (refreshToken) => {
@@ -14,7 +15,21 @@ export default function refreshTokenService() {
 
       return newAccessToken;
     } catch (err) {
-      return err;
+      if (err.response) {
+        throw new ForbiddenError(
+          "Forbidden.",
+          err.response.data.statusCode,
+          err.response.data.body.error,
+          true
+        );
+      } else {
+        throw new ForbiddenError(
+          "Forbidden.",
+          403,
+          "Invalid refresh token",
+          true
+        );
+      }
     }
   };
 
