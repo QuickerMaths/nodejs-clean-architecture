@@ -12,6 +12,11 @@ router
     "/:id",
     authExpressMiddleware,
     expressCallback(notesController.deleteNote)
+  )
+  .patch(
+    "/:id",
+    authExpressMiddleware,
+    expressCallback(notesController.patchNote)
   );
 
 export default router;
