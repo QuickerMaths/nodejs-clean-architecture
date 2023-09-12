@@ -3,9 +3,9 @@ import makeLogoutGetUser from "./logout-get-user.controller.js";
 import makePostUser from "./post-user.controller.js";
 import usersUseCase from "../../use-cases/users/index.use-case.js";
 
-const loginUser = makeLoginGetUser(usersUseCase.loginUser);
-const logoutUser = makeLogoutGetUser(usersUseCase.logoutUser);
-const postUser = makePostUser(usersUseCase.createUser);
+const loginUser = makeLoginGetUser({ loginUser: usersUseCase.loginUser });
+const logoutUser = makeLogoutGetUser({ logoutUser: usersUseCase.logoutUser });
+const postUser = makePostUser({ addUser: usersUseCase.createUser });
 
 const usersController = Object.freeze({
   loginUser,
@@ -14,4 +14,3 @@ const usersController = Object.freeze({
 });
 
 export default usersController;
-export { loginUser, logoutUser, postUser };

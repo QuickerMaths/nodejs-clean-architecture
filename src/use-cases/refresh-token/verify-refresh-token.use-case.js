@@ -7,8 +7,11 @@ async function handleForbiddenError(message, removeToken = false) {
   throw new ForbiddenError("Forbidden.", 403, message, true);
 }
 
-export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
-  return async function verifyRefreshToken(requestToken) {
+export default function makeVerifyRefreshToken({
+  refreshTokenDb,
+  authService,
+}) {
+  return async function verifyRefreshToken({ requestToken }) {
     const decodedToken = authService.jwt.decodeToken(requestToken);
 
     if (!decodedToken) {

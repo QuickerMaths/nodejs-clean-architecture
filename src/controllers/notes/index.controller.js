@@ -14,4 +14,3 @@ const notesController = Object.freeze({
 });
 
 export default notesController;
-export { postNote, getNotes, deleteNote };

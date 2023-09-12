@@ -1,4 +1,4 @@
-export default function makeLoginGetUser(loginUser) {
+export default function makeLoginGetUser({ loginUser }) {
   return async function loginGetUser(httpRequest) {
     const tokenPair = await loginUser({
       email: httpRequest.body.email,

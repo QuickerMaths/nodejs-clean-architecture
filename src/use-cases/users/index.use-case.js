@@ -7,13 +7,13 @@ import makeLogoutUser from "./logout-user.use-case.js";
 import refreshTokenUseCase from "../refresh-token/index.use-case.js";
 import refreshTokenDb from "../../data-access/refresh-token/index.db.js";
 
-const loginUser = makeLoginUser(usersDb, authService, refreshTokenUseCase);
-const logoutUser = makeLogoutUser(usersDb, authService, refreshTokenDb);
-const createUser = makeCreateUser(
+const loginUser = makeLoginUser({ usersDb, authService, refreshTokenUseCase });
+const logoutUser = makeLogoutUser({ usersDb, authService, refreshTokenDb });
+const createUser = makeCreateUser({
   usersDb,
-  validations.userValidation,
-  authService
-);
+  validate: validations.userValidation,
+  authService,
+});
 
 const usersUseCase = Object.freeze({
   loginUser,
@@ -22,4 +22,3 @@ const usersUseCase = Object.freeze({
 });
 
 export default usersUseCase;
-export { loginUser, logoutUser, createUser };

@@ -1,4 +1,4 @@
-export default function makeNotesDb(model) {
+export default function makeNotesDb({ model }) {
   async function findAllByUserId({ userId }) {
     const notes = await model.find({ userId });
 

@@ -1,4 +1,7 @@
-export default function makeCreateRefreshToken(refreshTokenDb, authService) {
+export default function makeCreateRefreshToken({
+  refreshTokenDb,
+  authService,
+}) {
   return async function createRefreshToken({ id, username, email }) {
     const token = await authService.jwt.generateRefreshToken({
       id,

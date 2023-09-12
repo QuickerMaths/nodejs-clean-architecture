@@ -1,6 +1,6 @@
 import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
-export default function makeGetRefreshToken(verifyRefreshToken) {
+export default function makeGetRefreshToken({ verifyRefreshToken }) {
   return async function getRefreshToken(httpRequest) {
     const refreshToken = httpRequest.cookies.refreshToken;
 
@@ -8,7 +8,7 @@ export default function makeGetRefreshToken(verifyRefreshToken) {
       throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
     }
 
-    const { accessToken } = await verifyRefreshToken(refreshToken);
+    const { accessToken } = await verifyRefreshToken({ refreshToken });
 
     return {
       statusCode: 200,

@@ -1,4 +1,4 @@
-export default function makeRefreshTokenDb(model) {
+export default function makeRefreshTokenDb({ model }) {
   async function insert({ token, userId }) {
     const refreshToken = await model.create({ token, userId });
 

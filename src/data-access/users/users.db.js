@@ -1,4 +1,4 @@
-export default function makeUserDb(model) {
+export default function makeUserDb({ model }) {
   async function insert({ ...userData }) {
     const user = model.create({ ...userData });
 

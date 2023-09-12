@@ -1,4 +1,4 @@
-export default function makePostUser(addUser) {
+export default function makePostUser({ addUser }) {
   return async function postUser(httpRequest) {
     const user = await addUser({
       username: httpRequest.body.username,

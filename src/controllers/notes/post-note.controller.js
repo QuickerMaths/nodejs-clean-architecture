@@ -7,7 +7,7 @@ export default function makePostNote({ addNote }) {
       userId: httpRequest.user.id,
     };
 
-    const note = await addNote(toAdd);
+    const note = await addNote({ ...toAdd });
 
     return {
       statusCode: 201,

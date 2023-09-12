@@ -18,4 +18,3 @@ const notesUseCase = Object.freeze({
 });
 
 export default notesUseCase;
-export { createNote, findNotes };

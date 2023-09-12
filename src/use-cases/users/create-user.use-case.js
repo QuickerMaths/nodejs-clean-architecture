@@ -1,6 +1,6 @@
 import { DuplicateError } from "../../utils/errors/DuplicateError.js";
 
-export default function makeCreateUser(usersDb, validate, authService) {
+export default function makeCreateUser({ usersDb, validate, authService }) {
   return async function createUser({ username, email, password } = {}) {
     const user = {
       username,
