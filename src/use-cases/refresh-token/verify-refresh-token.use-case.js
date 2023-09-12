@@ -2,12 +2,9 @@ import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
 export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
   return async function verifyRefreshToken(requestToken) {
-    const isTokenInDb = await refreshTokenDb.findByProperty({
-      token: requestToken,
-    });
+    const decodedToken = authService.jwt.decodeToken(requestToken);
 
-    //TODO: this should also check if the token is related to the user making request and remove token from db if its invalid
-    if (isTokenInDb.token !== requestToken) {
+    if (!decodedToken) {
       throw new ForbiddenError(
         "Forbidden.",
         403,
@@ -16,29 +13,52 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       );
     }
 
-    // if verification is successful this returns new access token
-    const decoded = await authService.jwt.verifyRefreshToken(requestToken);
+    const isTokenInDb = await refreshTokenDb.findByProperty({
+      userId: decodedToken.id,
+    });
 
-    if (!decoded) {
-      await refreshTokenDb.remove({ token: requestToken });
+    if (!isTokenInDb) {
       throw new ForbiddenError(
         "Forbidden.",
         403,
         "Invalid refresh token.",
         true
       );
-    } else if (decoded === "expired") {
-      await refreshTokenDb.remove({ token: requestToken });
+    } else if (isTokenInDb.token !== requestToken) {
+      await refreshTokenDb.remove({ token: isTokenInDb.token });
       throw new ForbiddenError(
         "Forbidden.",
         403,
-        "Refresh token expired please login again.",
+        "Invalid refresh token.",
+        true
+      );
+    }
+
+    const verificationResult = await authService.jwt.verifyRefreshToken(
+      requestToken
+    );
+
+    if (!verificationResult || verificationResult === "expired") {
+      await refreshTokenDb.remove({ token: requestToken });
+
+      if (verificationResult === "expired") {
+        throw new ForbiddenError(
+          "Forbidden.",
+          403,
+          "Refresh token expired. Please log in again.",
+          true
+        );
+      }
+      throw new ForbiddenError(
+        "Forbidden.",
+        403,
+        "Invalid refresh token.",
         true
       );
     }
 
     return {
-      decoded,
+      accessToken: verificationResult,
     };
   };
 }

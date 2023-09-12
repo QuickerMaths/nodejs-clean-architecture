@@ -8,7 +8,7 @@ export default function makeGetRefreshToken(verifyRefreshToken) {
       throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
     }
 
-    const { decoded: accessToken } = await verifyRefreshToken(refreshToken);
+    const { accessToken } = await verifyRefreshToken(refreshToken);
 
     return {
       statusCode: 200,

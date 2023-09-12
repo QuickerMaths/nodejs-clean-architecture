@@ -1,8 +1,9 @@
 import jwtService from "./jwt.auth-service.js";
 import hashService from "./hash.auth-service.js";
 import refreshTokenService from "./refresh-token.auth-service.js";
+import refreshTokenDb from "../../data-access/refresh-token/index.db.js";
 
-const jwt = jwtService();
+const jwt = jwtService(refreshTokenDb);
 const hash = hashService();
 const refreshToken = refreshTokenService();
 
