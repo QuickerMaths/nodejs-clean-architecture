@@ -1,4 +1,4 @@
-export default function makeCreateNote(notesDb, validate) {
+export default function makeCreateNote({ notesDb, validate }) {
   return async function createNote({ title, content, important, userId } = {}) {
     const note = {
       title,
