@@ -16,20 +16,19 @@ const authExpressMiddleware = (authService) => async (req, res, next) => {
   }
 
   if (decoded === "expired") {
-    res.clearCookie("accessToken");
-
     try {
-      await axios.get("http://localhost:3000/refresh-token", {
+      const result = await axios.get("http://localhost:3000/refresh-token", {
         withCredentials: true,
         headers: {
-          Cookie: [
-            `refreshToken=${refreshToken}`,
-            `accessToken=${accessToken}`,
-          ],
+          Cookie: [`refreshToken=${refreshToken}`],
         },
       });
 
-      // res.redirect(req.originalUrl);
+      res.cookie("accessToken", result.data.accessToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
     } catch (err) {
       next(err);
     }

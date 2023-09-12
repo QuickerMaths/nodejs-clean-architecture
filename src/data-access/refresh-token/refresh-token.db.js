@@ -8,8 +8,6 @@ export default function makeRefreshTokenDb(model) {
   async function remove({ token }) {
     await model.findOneAndDelete({ token });
 
-    console.log(token);
-
     return {};
   }
 

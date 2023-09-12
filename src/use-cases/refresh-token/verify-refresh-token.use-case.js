@@ -6,7 +6,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       token: requestToken,
     });
 
-    if (!isTokenInDb === requestToken) {
+    if (isTokenInDb.token !== requestToken) {
       throw new ForbiddenError("Forbidden.", 403, "Invalid refresh token.");
     }
 

@@ -1,4 +1,4 @@
-import makePostRefreshToken from "./post-refresh-token.controller.js";
+import makePostRefreshToken from "./get-refresh-token.controller.js";
 import refreshTokenUseCase from "../../use-cases/refresh-token/index.use-case.js";
 
 const postRefreshToken = makePostRefreshToken(

@@ -6,6 +6,8 @@ export default function makeLoginUser(
   refreshTokenUseCase
 ) {
   return async function loginUser({ email, password } = {}) {
+    //TODO: check if email and password are provided and create MissingPropertyError if not
+
     const user = await usersDb.getByEmail({ email });
 
     if (!user) {

@@ -12,23 +12,9 @@ export default function makePostRefreshToken(verifyRefreshToken) {
 
     return {
       statusCode: 200,
-      cookies: [
-        {
-          name: "refreshToken",
-          value: refreshToken,
-          options: {
-            httpOnly: true,
-          },
-        },
-        {
-          name: "accessToken",
-          value: accessToken,
-          options: {
-            httpOnly: true,
-          },
-        },
-      ],
-      body: {},
+      body: {
+        accessToken,
+      },
     };
   };
 }
