@@ -1,36 +1,34 @@
-import axios from "axios";
 import authService from "../services/auth/index.auth-service.js";
-import { ForbiddenError } from "../utils/errors/index.errors.js";
+import { BaseError, ForbiddenError } from "../utils/errors/index.errors.js";
 
 const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
 
   if (!accessToken || !refreshToken) {
-    throw new ForbiddenError("Forbidden", 403, "Credentials missing.", true);
+    next(new ForbiddenError("Forbidden", 403, "Credentials missing.", true));
   }
 
   const decoded = authService.jwt.verifyToken(accessToken);
 
   if (!decoded) {
-    throw new ForbiddenError("Forbidden", 403, "Token Invalid.", true);
+    next(new ForbiddenError("Forbidden", 403, "Token Invalid.", true));
   }
 
   if (decoded === "expired") {
-    try {
-      const result = await axios.get("http://localhost:3000/refresh-token", {
-        withCredentials: true,
-        headers: {
-          Cookie: [`refreshToken=${refreshToken}`],
-        },
-      });
+    const result = await authService.refreshToken.getNewAccessToken(
+      refreshToken
+    );
 
-      res.cookie("accessToken", result.data.accessToken, {
+    if (result?.name === "AxiosError") {
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
+      next(new ForbiddenError("Forbidden", 403, "Token Invalid.", true));
+    } else {
+      res.cookie("accessToken", result, {
         httpOnly: true,
         sameSite: "none",
         secure: true,
       });
-    } catch (err) {
-      next(err);
     }
   }
 

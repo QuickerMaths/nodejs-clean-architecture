@@ -6,14 +6,21 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
       token: requestToken,
     });
 
+    //TODO: this should also check if the token is related to the user making request and remove token from db if its invalid
     if (isTokenInDb.token !== requestToken) {
-      throw new ForbiddenError("Forbidden.", 403, "Invalid refresh token.");
+      throw new ForbiddenError(
+        "Forbidden.",
+        403,
+        "Invalid refresh token.",
+        true
+      );
     }
 
     // if verification is successful this returns new access token
     const decoded = await authService.jwt.verifyRefreshToken(requestToken);
 
     if (!decoded) {
+      await refreshTokenDb.remove({ token: requestToken });
       throw new ForbiddenError(
         "Forbidden.",
         403,
@@ -21,7 +28,7 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
         true
       );
     } else if (decoded === "expired") {
-      await refreshTokenDb.remove(requestToken);
+      await refreshTokenDb.remove({ token: requestToken });
       throw new ForbiddenError(
         "Forbidden.",
         403,
@@ -29,9 +36,6 @@ export default function makeVerifyRefreshToken(refreshTokenDb, authService) {
         true
       );
     }
-
-    //This gets executed after even thought the error is thrown
-    // console.log("bas");
 
     return {
       decoded,
