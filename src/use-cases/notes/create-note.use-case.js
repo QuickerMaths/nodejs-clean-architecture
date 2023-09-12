@@ -1,9 +1,10 @@
 export default function makeCreateNote(notesDb, validate) {
-  return async function createNote({ title, content, important } = {}) {
+  return async function createNote({ title, content, important, userId } = {}) {
     const note = {
       title,
       content,
       important,
+      userId,
     };
 
     validate(note);
@@ -12,6 +13,7 @@ export default function makeCreateNote(notesDb, validate) {
       title,
       content,
       important,
+      userId,
     });
   };
 }
