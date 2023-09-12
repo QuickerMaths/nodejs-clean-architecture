@@ -4,6 +4,7 @@ export default function makePostNote(addComment) {
       title: httpRequest.body.title,
       content: httpRequest.body.content,
       important: httpRequest.body.important,
+      userId: httpRequest.user.id,
     };
 
     const note = await addComment(toAdd);
