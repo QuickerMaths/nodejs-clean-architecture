@@ -12,6 +12,7 @@ import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
 import swaggerDocs from "./utils/docs/swagger.js";
 
+//TODO: figure out how to use notFound route so that it doesn't interfere with swagger docs
 //TODO: Implement initial database set up
 //TODO: Add tests
 
@@ -33,7 +34,7 @@ app.use(pino(loggerOptions));
 app.use("/auth", usersRouter);
 app.use("/notes", notesRouter);
 app.use("/refresh-token", refreshTokenRouter);
-app.use("*", notFound);
+// app.use("*", notFound);
 
 // Error handling middleware
 

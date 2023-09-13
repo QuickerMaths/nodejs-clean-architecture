@@ -14,20 +14,18 @@ const options = {
     },
     components: {
       securitySchemes: {
-        type: "apiKey",
-        name: "accessToken",
-        in: "cookie",
+        cookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "accessToken",
+        },
       },
     },
     security: {
-      api_key: [],
+      cookieAuth: [],
     },
   },
-  apis: [
-    "./src/routes/*.js",
-    "./src/services/validations/schemas/*.js",
-    "./src/models/*.js",
-  ],
+  apis: ["./src/routes/*.js", "./src/utils/docs/schemas/*/*.js"],
 };
 
 /* The line `const specs = swaggerJsdoc(options);` is creating a Swagger specification object based on
@@ -46,7 +44,7 @@ const specs = swaggerJsdoc(options);
 export default function swaggerDocs(app) {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-  app.get("/swagger.json", (req, res) => {
+  app.get("/docs.json", (req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.send(specs);
   });

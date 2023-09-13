@@ -7,7 +7,7 @@
  */
 export default function makeLoginGetUser({ loginUser }) {
   return async function loginGetUser(httpRequest) {
-    const tokenPair = await loginUser({
+    const { user, tokenPair } = await loginUser({
       email: httpRequest.body.email,
       password: httpRequest.body.password,
     });
@@ -34,7 +34,9 @@ export default function makeLoginGetUser({ loginUser }) {
           },
         },
       ],
-      body: {},
+      body: {
+        user,
+      },
     };
   };
 }

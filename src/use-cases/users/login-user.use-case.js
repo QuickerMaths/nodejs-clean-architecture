@@ -45,8 +45,11 @@ export default function makeLoginUser({
       });
 
     return {
-      accessToken,
-      refreshToken,
+      user,
+      tokenPair: {
+        accessToken,
+        refreshToken,
+      },
     };
   };
 }
