@@ -37,6 +37,8 @@
     "pino": "^8.15.0",
     "pino-http": "^8.5.0",
     "pino-pretty": "^10.2.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "validator": "^13.11.0"
   },
   "type": "module"
