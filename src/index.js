@@ -10,6 +10,7 @@ import notesRouter from "./routes/notes.routes.js";
 import refreshTokenRouter from "./routes/refresh-token.routes.js";
 import notFound from "./routes/not-found.routes.js";
 import errorHandler from "./helpers/errorHandler.js";
+import swaggerDocs from "./utils/docs/swagger.js";
 
 //TODO: Implement initial database set up
 //TODO: Add tests
@@ -69,5 +70,7 @@ db.once("open", () => {
   app.listen(config.port, () => {
     logger.info(`Server is listening on port ${config.port}`);
     logger.info(`Database is connected to db`);
+
+    swaggerDocs(app);
   });
 });
