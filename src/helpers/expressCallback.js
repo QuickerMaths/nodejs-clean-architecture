@@ -1,3 +1,6 @@
+/* The code is exporting a middleware function that takes in a `controller` function as a parameter.
+This middleware function is used to handle HTTP requests and responses. */
+
 export default (controller) => (req, res, next) => {
   const httpRequest = {
     body: req.body,

@@ -5,6 +5,8 @@ import makeRemoveNote from "./remove-note.use-case.js";
 import makeUpdateNote from "./update-note.use-case.js";
 import validations from "../../services/validations/index.validation.js";
 
+/* The code is creating instances of different use cases for managing notes. */
+
 const findNotes = makeFindNotes({ notesDb });
 const createNote = makeCreateNote({
   notesDb,

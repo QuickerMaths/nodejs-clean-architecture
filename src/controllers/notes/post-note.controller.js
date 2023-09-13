@@ -1,3 +1,11 @@
+/**
+ * The function `makePostNote` is an asynchronous function that takes an `addNote` function as a
+ * parameter and returns another asynchronous function `postNote` that handles the logic for creating a
+ * new note.
+ *
+ * @returns The function `makePostNote` is returning another function `postNote`.
+ */
+
 export default function makePostNote({ addNote }) {
   return async function postNote(httpRequest) {
     const toAdd = {

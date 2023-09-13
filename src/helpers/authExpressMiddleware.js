@@ -1,5 +1,14 @@
 import authService from "../services/auth/index.auth-service.js";
 import { ForbiddenError } from "../utils/errors/index.errors.js";
+/**
+ * The `authExpressMiddleware` function is a middleware that checks for the presence and validity of
+ * access and refresh tokens in the request cookies, and handles token refresh if the access token is
+ * expired.
+ *
+ * @param authService - The `authService` parameter is an object that provides authentication-related
+ * services, such as verifying and refreshing tokens. It is used within the middleware function to
+ * perform authentication checks and operations.
+ */
 
 const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;

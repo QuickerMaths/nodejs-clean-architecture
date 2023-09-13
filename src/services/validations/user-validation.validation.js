@@ -4,6 +4,20 @@ import {
   InvalidEmail,
 } from "../../utils/errors/index.errors.js";
 
+/**
+ * The function `makeUserValidation` takes a validator and a schema as input and returns a validation
+ * function that checks if a user object is valid according to the schema.
+ *
+ * @param validator - The `validator` parameter is a JSON Schema validator object. It is used to
+ * compile and validate the user object against the provided schema.
+ *
+ * @param schema - The `schema` parameter is a JSON schema that defines the structure and validation
+ * rules for the user object. It specifies the expected properties, their types, and any additional
+ * constraints or validations that should be applied to the user object.
+ *
+ * @returns The function `makeUserValidation` returns a validation function.
+ */
+
 export default function makeUserValidation(validator, schema) {
   return function validation(user) {
     const validate = validator.compile(schema);

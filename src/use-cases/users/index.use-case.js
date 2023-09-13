@@ -7,6 +7,8 @@ import makeLogoutUser from "./logout-user.use-case.js";
 import refreshTokenUseCase from "../refresh-token/index.use-case.js";
 import refreshTokenDb from "../../data-access/refresh-token/index.db.js";
 
+/* The code is creating instances of different use cases for managing users. */
+
 const loginUser = makeLoginUser({ usersDb, authService, refreshTokenUseCase });
 const logoutUser = makeLogoutUser({ usersDb, authService, refreshTokenDb });
 const createUser = makeCreateUser({

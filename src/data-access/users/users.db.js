@@ -1,3 +1,15 @@
+/**
+ * The function `makeUserDb` creates a user database object with methods for inserting, retrieving, and
+ * updating user data using a provided model.
+ *
+ * @param model - The `model` parameter that the `makeNotesDb` function takes is a database model
+ * object. It is responsible for creating, retrieving, updating, and deleting note data in the
+ * database.
+ *
+ * @returns The function `makeUserDb` returns an object with four methods: `insert`, `getById`,
+ * `getByEmail`, and `update`.
+ */
+
 export default function makeUserDb({ model }) {
   async function insert({ ...userData }) {
     const user = model.create({ ...userData });

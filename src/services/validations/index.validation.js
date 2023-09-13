@@ -8,6 +8,8 @@ import {
 } from "./schemas/note.validation-schema.js";
 import userSchema from "./schemas/user.validation-schema.js";
 
+/* The code is setting up validation using the Ajv library in JavaScript. */
+
 const ajv = new Ajv();
 addFormats(ajv, ["email"]);
 

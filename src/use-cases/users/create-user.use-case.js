@@ -1,5 +1,14 @@
 import { DuplicateError } from "../../utils/errors/DuplicateError.js";
 
+/**
+ * The `makeCreateUser` function is a factory function that returns an asynchronous function for
+ * creating a new user, which validates the user data, checks for duplicate email, encrypts the
+ * password, inserts the user into the database, and returns the created user's id, username, and
+ * email.
+ *
+ * @returns The function `makeCreateUser` returns an asynchronous function `createUser`.
+ */
+
 export default function makeCreateUser({ usersDb, validate, authService }) {
   return async function createUser({ username, email, password } = {}) {
     const user = {
