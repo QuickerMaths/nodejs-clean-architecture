@@ -9,7 +9,7 @@ router
   /**
    * @openapi
    * '/auth/logout':
-   *  post:
+   *  get:
    *   tags:
    *   - Users
    *   summary: Logs out the user that is currently logged in and removes refresh token associated with this user from the database.
