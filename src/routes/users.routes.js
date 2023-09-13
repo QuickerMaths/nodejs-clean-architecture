@@ -40,7 +40,7 @@ router
    *  post:
    *   tags:
    *   - Users
-   *   summary: Logs in user, returns the authentication cookies and saved refresh token in database.
+   *   summary: Logs in user, returns the authentication cookies and saves refresh token in database.
    *   requestBody:
    *    required: true
    *    description: A JSON object containing the login and password
@@ -52,7 +52,7 @@ router
    *    200:
    *     description: >
    *        Successfully authenticated.
-   *        The session ID is returned in a cookie named `accessToken`. You need to include this cookie in subsequent requests.
+   *        Returned a cookies named `accessToken` and `refreshToken`. You need to include this cookie in subsequent requests.
    *     headers:
    *      Set-Cookie:
    *       schema:

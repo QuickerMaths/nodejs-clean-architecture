@@ -15,10 +15,10 @@ router
    *   - Notes
    *   security:
    *    - cookieAuth: []
-   *   summary: Get all notes created by the user that is currently logged in
+   *   summary: Get all notes created by the user that is currently logged in. User Id is retrieved from the access token.
    *   responses:
    *    200:
-   *     description: Notes successfully retrieved
+   *     description: Notes successfully retrieved.
    *     content:
    *      application/json:
    *       schema:
@@ -56,7 +56,7 @@ router
    *       $ref: '#/components/schemas/CreateNote'
    *   responses:
    *    201:
-   *     description: Note updated successfully
+   *     description: Note created successfully
    *     content:
    *      application/json:
    *       schema:
@@ -85,7 +85,7 @@ router
    *   - Notes
    *   security:
    *    - cookieAuth: []
-   *   summary: Update note
+   *   summary: Delete note
    *   parameters:
    *   - name: noteId
    *     in: path
@@ -93,7 +93,7 @@ router
    *     required: true
    *   responses:
    *    204:
-   *     description: Note updated successfully
+   *     description: Note deleted successfully
    *     content:
    *      application/json:
    *       schema:
