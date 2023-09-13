@@ -28,7 +28,7 @@ export default (controller) => (req, res, next) => {
         });
       }
 
-      if (httpRequest?.path === "/auth/logout") {
+      if (httpRequest?.path === "/logout") {
         res.clearCookie("refreshToken");
         res.clearCookie("accessToken");
       }
