@@ -17,8 +17,8 @@ export default function makeNotesDb({ model }) {
     return note;
   }
 
-  async function update({ id, ...noteData }) {
-    const note = await model.findByIdAndUpdate(id, { ...noteData });
+  async function update({ id, toUpdate }) {
+    const note = await model.findByIdAndUpdate(id, { ...toUpdate });
 
     return note;
   }

@@ -11,9 +11,11 @@ export default function makePatchNote({ updateNote }) {
       );
     }
 
+    const toUpdate = httpRequest.body;
+
     const updatedNote = await updateNote({
       id: httpRequest.params.id,
-      ...httpRequest.body,
+      toUpdate,
     });
 
     return {
