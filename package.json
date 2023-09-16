@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --watchAll --config=jest.config.json",
     "dev": "nodemon src/index.js"
   },
   "repository": {
@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/QuickerMaths/nodejs-clean-architecture#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.20",
+    "babel-jest": "^29.7.0",
     "dotenv": "^16.3.1",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.1"
   },
   "dependencies": {

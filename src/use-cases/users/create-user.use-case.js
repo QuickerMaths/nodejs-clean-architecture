@@ -17,7 +17,7 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
       password,
     };
 
-    validate(user);
+    await validate(user);
 
     const existing = await usersDb.getByEmail({ email });
 

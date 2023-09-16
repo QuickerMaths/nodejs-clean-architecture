@@ -9,6 +9,7 @@
  * @returns The function `makeNotesDb` returns an object with four methods: `findAllByUserId`,
  * `insert`, `remove`, and `update`.
  */
+
 export default function makeNotesDb({ model }) {
   async function findAllByUserId({ userId }) {
     const notes = await model.find({ userId });
