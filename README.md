@@ -68,12 +68,6 @@ npm run dev
 
 ```
 
-## Full Techstack
-
-* [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript?retiredLocale=pl)
-
-
-
 
 
 
