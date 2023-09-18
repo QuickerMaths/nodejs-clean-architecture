@@ -45,7 +45,13 @@ export default function makeLoginUser({
       });
 
     return {
-      user,
+      user: {
+        username: user.username,
+        email: user.email,
+        _id: user._id,
+        updatedAt: user.updatedAt,
+        createdAt: user.createdAt,
+      },
       tokenPair: {
         accessToken,
         refreshToken,

@@ -30,9 +30,15 @@ export default function makeUserDb({ model }) {
   }
 
   async function update({ id, ...changes }) {
-    const user = await model.findByIdAndUpdate(id, {
-      ...changes,
-    });
+    const user = await model.findByIdAndUpdate(
+      id,
+      {
+        ...changes,
+      },
+      {
+        returnOriginal: false,
+      }
+    );
 
     return user;
   }

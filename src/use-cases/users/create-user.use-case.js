@@ -39,9 +39,11 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
     });
 
     return {
-      id: newUser._id,
       username: newUser.username,
       email: newUser.email,
+      _id: newUser._id,
+      updatedAt: newUser.updatedAt,
+      createdAt: newUser.createdAt,
     };
   };
 }

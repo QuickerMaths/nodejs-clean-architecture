@@ -1,40 +1,15 @@
 import config from "./config/config.js";
-import express from "express";
-import cors from "cors";
-import pino from "pino-http";
-import cookieParser from "cookie-parser";
 import db from "../db/index.js";
-import loggerOptions, { logger } from "./helpers/logger.js";
-import usersRouter from "./routes/users.routes.js";
-import notesRouter from "./routes/notes.routes.js";
-import refreshTokenRouter from "./routes/refresh-token.routes.js";
-import notFound from "./routes/not-found.routes.js";
+import createServer from "./server.js";
 import errorHandler from "./helpers/errorHandler.js";
 import swaggerDocs from "./utils/docs/swagger.js";
+import { logger } from "./helpers/logger.js";
 
 //TODO: figure out how to use notFound route so that it doesn't interfere with swagger docs
 //TODO: Implement initial database set up
 //TODO: Add tests
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(
-  cors({
-    credentials: true,
-    origin: true,
-  })
-);
-app.use(cookieParser());
-app.use(pino(loggerOptions));
-
-// Routes
-
-app.use("/auth", usersRouter);
-app.use("/notes", notesRouter);
-app.use("/refresh-token", refreshTokenRouter);
-// app.use("*", notFound);
+const app = createServer();
 
 // Error handling middleware
 
@@ -66,6 +41,8 @@ process.on("uncaughtException", (error) => {
 });
 
 // Database connection
+
+// this is to prevents listen EADDRINUSE: address already in use :::port error when running tests
 
 db.once("open", () => {
   app.listen(config.port, () => {

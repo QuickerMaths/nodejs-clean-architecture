@@ -34,9 +34,7 @@ export default function makeLoginGetUser({ loginUser }) {
           },
         },
       ],
-      body: {
-        user,
-      },
+      body: user,
     };
   };
 }

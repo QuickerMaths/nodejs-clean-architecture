@@ -15,7 +15,7 @@ export default function makePostUser({ addUser }) {
 
     return {
       statusCode: 201,
-      body: { user },
+      body: user,
     };
   };
 }
