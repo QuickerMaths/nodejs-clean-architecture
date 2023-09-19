@@ -3,5 +3,6 @@
   "detectOpenHandles": true,
   "verbose": true,
   "testEnvironment": "node",
-  "forceExit": true
+  "forceExit": true,
+  "clearMocks": true
 }

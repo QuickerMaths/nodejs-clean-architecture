@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --watchAll --config=jest.config.json",
+    "test": "jest --watchAll --config=jest.config.json",
     "dev": "nodemon src/index.js"
   },
   "repository": {

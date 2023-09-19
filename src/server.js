@@ -16,16 +16,28 @@ function createServer() {
   app.use(
     cors({
       credentials: true,
-      origin: true,
+      origin: true
     })
   );
   app.use(cookieParser());
-  app.use(pino(loggerOptions));
+
+  if (process.env.NODE_ENV !== "test") app.use(pino(loggerOptions));
 
   app.use("/auth", usersRouter);
   app.use("/notes", notesRouter);
   app.use("/refresh-token", refreshTokenRouter);
   // app.use("*", notFound);
+
+  if (process.env.NODE_ENV === "test") {
+    app.use((err, req, res, next) => {
+      return res.status(err.statusCode).send({
+        statusCode: err.statusCode,
+        body: {
+          error: err.message
+        }
+      });
+    });
+  }
 
   return app;
 }

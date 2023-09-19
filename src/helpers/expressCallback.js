@@ -14,13 +14,13 @@ export default (controller) => (req, res, next) => {
     cookies: req.cookies,
     source: {
       ip: req.ip,
-      browser: req.get("User-Agent"),
+      browser: req.get("User-Agent")
     },
     headers: {
       "Content-Type": req.get("Content-Type"),
       Referer: req.get("referer"),
-      "User-Agent": req.get("User-Agent"),
-    },
+      "User-Agent": req.get("User-Agent")
+    }
   };
 
   controller(httpRequest)
