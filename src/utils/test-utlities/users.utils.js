@@ -32,7 +32,7 @@ const userLoginInput = {
   password: "test123"
 };
 
-const userWrongLogin = {
+const userWrongLoginInput = {
   email: "wrong@gmail.com",
   password: "wrong123"
 };
@@ -51,7 +51,7 @@ const userUtils = Object.freeze({
   userSignUpInput,
   userSignUpWrongInput,
   userLoginInput,
-  userWrongLogin,
+  userWrongLoginInput,
   errorResponse
 });
 

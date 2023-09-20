@@ -98,7 +98,6 @@ describe("users router", () => {
 
       //Assert
       expect(response.statusCode).toBe(200);
-      //TODO: fix cookie assertion
       expect(response.headers).toHaveProperty("set-cookie", [
         "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
         "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
@@ -110,27 +109,40 @@ describe("users router", () => {
       expect(jwt.sign).toHaveBeenCalledTimes(2);
     });
 
-    //   it("Invalid or missing email/password --> return { statusCode 401, body: { error: message } }", async () => {
-    //   //Arrange
-    //   const requestBody = {
-    //     email: "badmail@gmail.com",
-    //     password: "badpassword123"
-    //   };
-    //   const responseBody = {
-    //     statusCode: 401,
-    //     body: {
-    //       error: expect.any(String)
-    //     }
-    //   };
-    //   //Act
-    //   const response = await request(app)
-    //     .post("/auth/login")
-    //     .send(requestBody)
-    //     .expect("Content-Type", /json/)
-    //     .expect(401);
-    //   //Assert
-    //   expect(response.body).toEqual(expect.objectContaining(responseBody));
-    // });
+    it("Invalid or missing email --> return { statusCode 401, body: { error: message } }", async () => {
+      //Arrange
+      const { userWrongLoginInput, errorResponse } = userUtils;
+      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(null));
+
+      //Act
+      const response = await request(app)
+        .post("/auth/login")
+        .send(userWrongLoginInput);
+
+      //Assert
+      expect(response.statusCode).toBe(401);
+      expect(response.body).toMatchObject(errorResponse);
+      expect(usersDbMock.getByEmail).toHaveBeenCalledTimes(1);
+    });
+
+    it("Invalid or missing password --> return { statusCode 401, body: { error: message } }", async () => {
+      //Arrange
+      const { user, userWrongLoginInput, errorResponse } = userUtils;
+      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(user));
+      bcrypt.compareSync.mockImplementation(() => false);
+
+      //Act
+      const response = await request(app)
+        .post("/auth/login")
+        .send(userWrongLoginInput);
+
+      //Assert
+      expect(response.statusCode).toBe(401);
+      expect(response.body).toMatchObject(errorResponse);
+      expect(
+        usersDbMock.getByEmail && bcrypt.compareSync
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("GET /auth/logout", () => {
