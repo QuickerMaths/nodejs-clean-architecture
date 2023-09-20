@@ -10,7 +10,8 @@ jest.mock("../../../data-access/users/index.db.js", () => {
         updatedAt: "2020-10-20T15:00:59.000Z"
       })
     ),
-    getByEmail: jest.fn()
+    getByEmail: jest.fn(),
+    getById: jest.fn()
   };
 });
 

@@ -1,6 +1,8 @@
 import validationMock from "../../__mocks__/services/validations/index.validation.mock.js";
 import usersDbMock from "../../__mocks__/data-access/users/index.db.mock.js";
-// import authServiceMock from "../../__mocks__/services/auth/index.auth-service.mock.js";
+import refreshTokenDbMock from "../../__mocks__/data-access/refresh-token/index.db.mock.js";
+import bcrypt from "../../__mocks__/bcrypt/bcrypt.js";
+import jwt from "../../__mocks__/jsonwebtoken/jsonwebtoken.js";
 
 import request from "supertest";
 import createServer from "../../server.js";
@@ -13,7 +15,7 @@ describe("users router", () => {
   describe("POST /auth/signup", () => {
     it("Success --> return { statusCode 201, body: { user } }", async () => {
       //Arrange
-      const { userSignUpInput, userSignUpPayload } = userUtils;
+      const { userSignUpInput, userPayload } = userUtils;
       validationMock.userValidation.mockImplementation(() =>
         Promise.resolve(true)
       );
@@ -26,7 +28,7 @@ describe("users router", () => {
 
       //Assert
       expect(response.statusCode).toBe(201);
-      expect(response.body).toMatchObject(userSignUpPayload);
+      expect(response.body).toMatchObject(userPayload);
       expect(
         validationMock.userValidation &&
           usersDbMock.getByEmail &&
@@ -80,6 +82,62 @@ describe("users router", () => {
     });
   });
 
+  describe("POST /auth/login", () => {
+    it("Success --> return { statusCode 200, body: { user } }", async () => {
+      //Arrange
+      const { userPayload, userLoginInput } = userUtils;
+      usersDbMock.getByEmail.mockImplementation(() =>
+        Promise.resolve({
+          _id: "!",
+          username: "test",
+          email: "example@gmail.com",
+          password: "test123",
+          createdAt: "2021-08-31T12:00:00.000Z",
+          updatedAt: "2021-08-31T12:00:00.000Z"
+        })
+      );
+      refreshTokenDbMock.insert.mockImplementation(() =>
+        Promise.resolve("refreshToken")
+      );
+
+      //Act
+      const response = await request(app)
+        .post("/auth/login")
+        .send(userLoginInput);
+
+      //Assert
+      expect(response.statusCode).toBe(200);
+      expect(response.headers).toHaveProperty("set-cookie");
+      expect(response.body).toMatchObject(userPayload);
+      expect(
+        usersDbMock.getByEmail && bcrypt.hashSync && refreshTokenDbMock.insert
+      ).toHaveBeenCalledTimes(1);
+      expect(jwt.sign).toHaveBeenCalledTimes(2);
+    });
+
+    //   it("Invalid or missing email/password --> return { statusCode 401, body: { error: message } }", async () => {
+    //   //Arrange
+    //   const requestBody = {
+    //     email: "badmail@gmail.com",
+    //     password: "badpassword123"
+    //   };
+    //   const responseBody = {
+    //     statusCode: 401,
+    //     body: {
+    //       error: expect.any(String)
+    //     }
+    //   };
+    //   //Act
+    //   const response = await request(app)
+    //     .post("/auth/login")
+    //     .send(requestBody)
+    //     .expect("Content-Type", /json/)
+    //     .expect(401);
+    //   //Assert
+    //   expect(response.body).toEqual(expect.objectContaining(responseBody));
+    // });
+  });
+
   describe("GET /auth/logout", () => {
     // it("Success --> returns { statusCode 204, body: {} }", async () => {
     //   // //Act
@@ -107,51 +165,6 @@ describe("users router", () => {
     //   //Assert
     //   expect(response.body).toEqual(expect.objectContaining(responseBody));
   });
-
-  describe("POST /auth/login", () => {
-    // it("Success --> return { statusCode 200, body: { user } }", async () => {
-    //   //Arrange
-    //   const requestBody = { email: "test@gmail.com", password: "test123" };
-    //   const responseBody = {
-    //     username: expect.any(String),
-    //     email: expect.any(String),
-    //     _id: expect.any(String),
-    //     updatedAt: expect.any(String),
-    //     createdAt: expect.any(String)
-    //   };
-    //   //Act
-    //   const response = await request(app)
-    //     .post("/auth/login")
-    //     .send(requestBody)
-    //     .expect("Content-Type", /json/)
-    //     .expect("Set-Cookie", /accessToken/)
-    //     .expect("Set-Cookie", /refreshToken/)
-    //     .expect(200);
-    //   //Assert
-    //   expect(response.body).toEqual(expect.objectContaining(responseBody));
-  });
-
-  // it("Invalid or missing email/password --> return { statusCode 401, body: { error: message } }", async () => {
-  // //Arrange
-  // const requestBody = {
-  //   email: "badmail@gmail.com",
-  //   password: "badpassword123"
-  // };
-  // const responseBody = {
-  //   statusCode: 401,
-  //   body: {
-  //     error: expect.any(String)
-  //   }
-  // };
-  // //Act
-  // const response = await request(app)
-  //   .post("/auth/login")
-  //   .send(requestBody)
-  //   .expect("Content-Type", /json/)
-  //   .expect(401);
-  // //Assert
-  // expect(response.body).toEqual(expect.objectContaining(responseBody));
-  // });
 });
 
 // afterAll(() => {

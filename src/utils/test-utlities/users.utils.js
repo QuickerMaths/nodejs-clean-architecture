@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 
 const userId = new mongoose.Types.ObjectId().toString();
 
-const userSignUpInput = {
-  username: "test",
-  email: "example@gmail.com",
-  password: "test123"
-};
-
-const userSignUpPayload = {
+const userPayload = {
   username: "test",
   email: "example@gmail.com",
   _id: expect.any(String),
   updatedAt: expect.any(String),
   createdAt: expect.any(String)
+};
+
+const userSignUpInput = {
+  username: "test",
+  email: "example@gmail.com",
+  password: "test123"
 };
 
 const userSignUpWrongInput = { username: "testuser", email: "test@gmail.com" };
@@ -28,14 +28,6 @@ const userWrongLogin = {
   password: "wrong123"
 };
 
-const userLoginPayload = {
-  _id: expect.any(String),
-  username: "test",
-  email: "example@gmail.com",
-  createdAt: expect.any(String),
-  updatedAt: expect.any(String)
-};
-
 const errorResponse = {
   statusCode: expect.any(Number),
   body: {
@@ -45,12 +37,11 @@ const errorResponse = {
 
 const userUtils = Object.freeze({
   userId,
+  userPayload,
   userSignUpInput,
-  userSignUpPayload,
   userSignUpWrongInput,
   userLoginInput,
   userWrongLogin,
-  userLoginPayload,
   errorResponse
 });
 
