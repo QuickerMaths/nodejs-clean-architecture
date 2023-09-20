@@ -5,17 +5,13 @@
  * @returns The function `makePostUser` returns an asynchronous function `postUser`.
  */
 
-export default function makePostUser({ addUser }) {
+export default function makePostUser({ createUser }) {
   return async function postUser(httpRequest) {
-    const user = await addUser({
-      username: httpRequest.body.username,
-      email: httpRequest.body.email,
-      password: httpRequest.body.password,
-    });
+    const user = await createUser({ ...httpRequest.body });
 
     return {
       statusCode: 201,
-      body: user,
+      body: user
     };
   };
 }

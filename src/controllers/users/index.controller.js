@@ -5,12 +5,12 @@ import usersUseCase from "../../use-cases/users/index.use-case.js";
 
 const loginUser = makeLoginGetUser({ loginUser: usersUseCase.loginUser });
 const logoutUser = makeLogoutGetUser({ logoutUser: usersUseCase.logoutUser });
-const postUser = makePostUser({ addUser: usersUseCase.createUser });
+const postUser = makePostUser({ createUser: usersUseCase.createUser });
 
 const usersController = Object.freeze({
   loginUser,
   logoutUser,
-  postUser,
+  postUser
 });
 
 export default usersController;

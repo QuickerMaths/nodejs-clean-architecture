@@ -14,7 +14,7 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
     const user = {
       username,
       email,
-      password,
+      password
     };
 
     await validate(user);
@@ -35,7 +35,7 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
     const newUser = await usersDb.insert({
       username,
       email,
-      password: hashedPassword,
+      password: hashedPassword
     });
 
     return {
@@ -43,7 +43,7 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
       email: newUser.email,
       _id: newUser._id,
       updatedAt: newUser.updatedAt,
-      createdAt: newUser.createdAt,
+      createdAt: newUser.createdAt
     };
   };
 }

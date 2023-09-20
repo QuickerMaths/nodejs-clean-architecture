@@ -16,6 +16,8 @@ const userSignUpPayload = {
   createdAt: expect.any(String)
 };
 
+const userSignUpWrongInput = { username: "testuser", email: "test@gmail.com" };
+
 const userLoginInput = {
   email: "example@gmail.com",
   password: "test123"
@@ -34,13 +36,22 @@ const userLoginPayload = {
   updatedAt: expect.any(String)
 };
 
+const errorResponse = {
+  statusCode: expect.any(Number),
+  body: {
+    error: expect.any(String)
+  }
+};
+
 const userUtils = Object.freeze({
   userId,
   userSignUpInput,
   userSignUpPayload,
+  userSignUpWrongInput,
   userLoginInput,
   userWrongLogin,
-  userLoginPayload
+  userLoginPayload,
+  errorResponse
 });
 
 export default userUtils;

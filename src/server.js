@@ -30,6 +30,7 @@ function createServer() {
 
   if (process.env.NODE_ENV === "test") {
     app.use((err, req, res, next) => {
+      // console.log(err);
       return res.status(err.statusCode).send({
         statusCode: err.statusCode,
         body: {

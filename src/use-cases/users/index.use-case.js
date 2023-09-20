@@ -14,13 +14,13 @@ const logoutUser = makeLogoutUser({ usersDb, authService, refreshTokenDb });
 const createUser = makeCreateUser({
   usersDb,
   validate: validations.userValidation,
-  authService,
+  authService
 });
 
 const usersUseCase = Object.freeze({
   loginUser,
   logoutUser,
-  createUser,
+  createUser
 });
 
 export default usersUseCase;
