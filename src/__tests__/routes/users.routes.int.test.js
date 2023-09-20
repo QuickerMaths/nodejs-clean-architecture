@@ -15,11 +15,12 @@ describe("users router", () => {
   describe("POST /auth/signup", () => {
     it("Success --> return { statusCode 201, body: { user } }", async () => {
       //Arrange
-      const { userSignUpInput, userPayload } = userUtils;
+      const { user, userSignUpInput, userPayload } = userUtils;
       validationMock.userValidation.mockImplementation(() =>
         Promise.resolve(true)
       );
       usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(null));
+      usersDbMock.insert.mockImplementation(() => Promise.resolve(user));
 
       //Act
       const response = await request(app)
@@ -146,34 +147,46 @@ describe("users router", () => {
   });
 
   describe("GET /auth/logout", () => {
-    // it("Success --> returns { statusCode 204, body: {} }", async () => {
-    //   // //Act
-    //   // const response = await request(app)
-    //   //   .get("/auth/logout")
-    //   //   .expect(204);
-    //   // //Assert
-    //   // expect(response.body).toStrictEqual({});
-    // });
-    // it("Invalid or missing accessToken --> return { statusCode 401, body: { error: message } }", async () => {
-    //   //Arrange
-    //   const responseBody = {
-    //     statusCode: 401,
-    //     body: {
-    //       error: expect.any(String)
-    //     }
-    //   };
-    //   //Act
-    //   const response = await request(app)
-    //     .get("/auth/logout")
-    //     .expect("Content-Type", /json/)
-    //     .expect("Set-Cookie", /accessToken/)
-    //     .expect("Set-Cookie", /refreshToken/)
-    //     .expect(401);
-    //   //Assert
-    //   expect(response.body).toEqual(expect.objectContaining(responseBody));
+    it("Success --> returns { statusCode 204, body: {} }", async () => {
+      //Arrange
+      const { userId, user } = userUtils;
+      jwt.decode.mockImplementation(() => ({ id: userId }));
+      usersDbMock.getById.mockImplementation(() => Promise.resolve(user));
+
+      //Act
+      const response = await request(app)
+        .get("/auth/logout")
+        .set("set-cookie", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
+      //Assert
+      expect(response.toJSON().req.headers["set-cookie"]).toStrictEqual([
+        "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+      ]);
+      expect(response.statusCode).toBe(204);
+      expect(response.body).toStrictEqual({});
+      expect(response.headers).toHaveProperty("set-cookie", [
+        "refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT",
+        "accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
+      ]);
+      expect(
+        jwt.decode && usersDbMock.getById && refreshTokenDbMock.remove
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it("Invalid or missing refreshToken --> return { statusCode 401, body: { error: message } }", async () => {
+      //Arrange
+      const { errorResponse } = userUtils;
+      usersDbMock.getById.mockImplementation(() => Promise.resolve(null));
+
+      //Act
+      const response = await request(app).get("/auth/logout");
+
+      //Assert
+      expect(response.statusCode).toBe(401);
+      expect(response.body).toMatchObject(errorResponse);
+      expect(response.toJSON().req.headers).not.toHaveProperty("set-cookie");
+    });
   });
 });
-
-// afterAll(() => {
-//   app.quit();
-// });
