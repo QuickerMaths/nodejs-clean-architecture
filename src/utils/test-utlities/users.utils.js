@@ -2,6 +2,15 @@ import mongoose from "mongoose";
 
 const userId = new mongoose.Types.ObjectId().toString();
 
+const user = {
+  _id: userId,
+  username: "test",
+  email: "example@gmail.com",
+  password: "test123",
+  createdAt: "2021-08-31T12:00:00.000Z",
+  updatedAt: "2021-08-31T12:00:00.000Z"
+};
+
 const userPayload = {
   username: "test",
   email: "example@gmail.com",
@@ -37,6 +46,7 @@ const errorResponse = {
 
 const userUtils = Object.freeze({
   userId,
+  user,
   userPayload,
   userSignUpInput,
   userSignUpWrongInput,

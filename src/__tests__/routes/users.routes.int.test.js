@@ -19,7 +19,7 @@ describe("users router", () => {
       validationMock.userValidation.mockImplementation(() =>
         Promise.resolve(true)
       );
-      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(false));
+      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(null));
 
       //Act
       const response = await request(app)
@@ -62,11 +62,11 @@ describe("users router", () => {
 
     it("Email duplication --> return { statusCode 409, body: { error: message } }", async () => {
       //Arrange
-      const { userSignUpInput, errorResponse } = userUtils;
+      const { user, userSignUpInput, errorResponse } = userUtils;
       validationMock.userValidation.mockImplementation(() =>
         Promise.resolve(true)
       );
-      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(true));
+      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(user));
 
       //Act
       const response = await request(app)
@@ -85,19 +85,10 @@ describe("users router", () => {
   describe("POST /auth/login", () => {
     it("Success --> return { statusCode 200, body: { user } }", async () => {
       //Arrange
-      const { userPayload, userLoginInput } = userUtils;
-      usersDbMock.getByEmail.mockImplementation(() =>
-        Promise.resolve({
-          _id: "!",
-          username: "test",
-          email: "example@gmail.com",
-          password: "test123",
-          createdAt: "2021-08-31T12:00:00.000Z",
-          updatedAt: "2021-08-31T12:00:00.000Z"
-        })
-      );
+      const { user, userPayload, userLoginInput } = userUtils;
+      usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(user));
       refreshTokenDbMock.insert.mockImplementation(() =>
-        Promise.resolve("refreshToken")
+        Promise.resolve({ token: "token" })
       );
 
       //Act
@@ -107,7 +98,11 @@ describe("users router", () => {
 
       //Assert
       expect(response.statusCode).toBe(200);
-      expect(response.headers).toHaveProperty("set-cookie");
+      //TODO: fix cookie assertion
+      expect(response.headers).toHaveProperty("set-cookie", [
+        "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+        "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+      ]);
       expect(response.body).toMatchObject(userPayload);
       expect(
         usersDbMock.getByEmail && bcrypt.hashSync && refreshTokenDbMock.insert
