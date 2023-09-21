@@ -1,3 +1,5 @@
+import { ForbiddenError } from "../../utils/errors/ForbiddenError";
+
 /**
  * The function `makeLogoutGetUser` is an async function that takes an HTTP request and a `logoutUser`
  * function as parameters, and returns a response object with a status code of 204 and a body
@@ -8,7 +10,11 @@
 
 export default function makeLogoutGetUser({ logoutUser }) {
   return async function logoutGetUser(httpRequest) {
-    const refreshToken = httpRequest.cookies.refreshToken;
+    const { refreshToken } = httpRequest.cookies;
+
+    // if (!refreshToken) {
+    //   throw new ForbiddenError("Forbidden", 403, "Missing credentials", true);
+    // }
 
     const content = await logoutUser({ refreshToken });
 

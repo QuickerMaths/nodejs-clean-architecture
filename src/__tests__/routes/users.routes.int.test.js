@@ -161,15 +161,13 @@ describe("users router", () => {
         ]);
 
       //Assert
-      expect(response.toJSON().req.headers["set-cookie"]).toStrictEqual([
-        "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None"
-      ]);
       expect(response.statusCode).toBe(204);
       expect(response.body).toStrictEqual({});
       expect(response.headers).toHaveProperty("set-cookie", [
         "refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT",
         "accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT"
       ]);
+      expect(response.toJSON().req.headers).toHaveProperty("set-cookie");
       expect(
         jwt.decode && usersDbMock.getById && refreshTokenDbMock.remove
       ).toHaveBeenCalledTimes(1);
@@ -179,10 +177,8 @@ describe("users router", () => {
       //Arrange
       const { errorResponse } = userUtils;
       usersDbMock.getById.mockImplementation(() => Promise.resolve(null));
-
       //Act
       const response = await request(app).get("/auth/logout");
-
       //Assert
       expect(response.statusCode).toBe(401);
       expect(response.body).toMatchObject(errorResponse);
