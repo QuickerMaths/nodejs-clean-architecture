@@ -88,6 +88,7 @@ describe("users router", () => {
       //Arrange
       const { user, userPayload, userLoginInput } = userUtils;
       usersDbMock.getByEmail.mockImplementation(() => Promise.resolve(user));
+      jwt.sign.mockImplementation(() => "token");
       refreshTokenDbMock.insert.mockImplementation(() =>
         Promise.resolve({ token: "token" })
       );

@@ -1,7 +1,7 @@
 jest.mock("jsonwebtoken", () => ({
   ...jest.requireActual("jsonwebtoken"),
-  sign: jest.fn().mockReturnValue("token"),
-  verify: jest.fn().mockReturnValue({ id: "id" }),
+  sign: jest.fn(),
+  verify: jest.fn(),
   decode: jest.fn()
 }));
 

@@ -1,8 +1,9 @@
-jest.mock("../../../data-access/refresh-token/index.db", () => ({
+jest.mock("../../../data-access/refresh-token/index.db.js", () => ({
   insert: jest.fn(),
-  remove: jest.fn().mockImplementation(() => Promise.resolve({}))
+  findByProperty: jest.fn(),
+  remove: jest.fn()
 }));
 
-import refreshTokenDbMock from "../../../data-access/refresh-token/index.db";
+import refreshTokenDbMock from "../../../data-access/refresh-token/index.db.js";
 
 export default refreshTokenDbMock;
