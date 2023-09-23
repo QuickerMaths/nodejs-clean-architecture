@@ -17,12 +17,7 @@ export default function makeVerifyRefreshToken({
     const decodedToken = authService.jwt.decodeToken(requestToken);
 
     if (!decodedToken) {
-      throw new ForbiddenError(
-        "Forbidden.",
-        403,
-        "Invalid refresh token.",
-        true
-      );
+      throw new ForbiddenError("Invalid refresh token.");
     }
 
     const isTokenInDb = await refreshTokenDb.findByProperty({
@@ -30,20 +25,10 @@ export default function makeVerifyRefreshToken({
     });
 
     if (!isTokenInDb) {
-      throw new ForbiddenError(
-        "Forbidden.",
-        403,
-        "Invalid refresh token.",
-        true
-      );
+      throw new ForbiddenError("Invalid refresh token.");
     } else if (isTokenInDb.token !== requestToken) {
       await refreshTokenDb.remove({ userId: decodedToken.id });
-      throw new ForbiddenError(
-        "Forbidden.",
-        403,
-        "Invalid refresh token.",
-        true
-      );
+      throw new ForbiddenError("Invalid refresh token.");
     }
 
     const verificationResult = await authService.jwt.verifyRefreshToken(
@@ -54,18 +39,12 @@ export default function makeVerifyRefreshToken({
       await refreshTokenDb.remove({ userId: decodedToken.id });
       throw new ForbiddenError(
         "Forbidden.",
-        403,
-        "Invalid refresh token.",
-        true
+
+        "Invalid refresh token."
       );
     } else if (verificationResult === "expired") {
       await refreshTokenDb.remove({ userId: decodedToken.id });
-      throw new ForbiddenError(
-        "Forbidden.",
-        403,
-        "Invalid refresh token.",
-        true
-      );
+      throw new ForbiddenError("Invalid refresh token.");
     }
 
     return {

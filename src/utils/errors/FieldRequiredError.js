@@ -1,12 +1,7 @@
 import { BaseError } from "./BaseError.js";
 
 export class FieldRequiredError extends BaseError {
-  constructor(
-    name = "Field Required Error",
-    statusCode = 400,
-    message = "Bad Request",
-    isOperational = true
-  ) {
-    super(name, statusCode, message, isOperational);
+  constructor(message = "Bad Request") {
+    super("Field Required Error", 400, message, true);
   }
 }

@@ -14,13 +14,13 @@ const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
 
   if (!accessToken || !refreshToken) {
-    next(new ForbiddenError("Forbidden", 403, "Credentials missing.", true));
+    next(new ForbiddenError("Credentials missing"));
   }
 
   const decoded = authService.jwt.verifyToken(accessToken);
 
   if (!decoded) {
-    next(new ForbiddenError("Forbidden", 403, "Token Invalid.", true));
+    next(new ForbiddenError("Token Invalid."));
   }
 
   if (decoded === "expired") {
@@ -30,14 +30,14 @@ const authExpressMiddleware = (authService) => async (req, res, next) => {
         res.cookie("accessToken", newAccessToken, {
           httpOnly: true,
           sameSite: "none",
-          secure: true,
+          secure: true
         });
       })
       .catch((e) => {
         console.log(e);
         res.clearCookie("accessToken");
         res.clearCookie("refreshToken");
-        next(new ForbiddenError("Forbidden", e.statusCode, e.message, true));
+        next(new ForbiddenError(e.message));
       });
   }
 

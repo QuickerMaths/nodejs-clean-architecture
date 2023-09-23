@@ -1,12 +1,7 @@
 import { BaseError } from "./BaseError.js";
 
 export class InvalidEmail extends BaseError {
-  constructor(
-    name = "Invalid Email Format",
-    statusCode = 400,
-    message = "Bad Request",
-    isOperational = true
-  ) {
-    super(name, statusCode, message, isOperational);
+  constructor(message = "Bad Request") {
+    super("Invalid Email Format", 400, message, true);
   }
 }

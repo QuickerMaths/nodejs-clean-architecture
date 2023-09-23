@@ -22,12 +22,7 @@ export default function makeCreateUser({ usersDb, validate, authService }) {
     const existing = await usersDb.getByEmail({ email });
 
     if (existing) {
-      throw new DuplicateError(
-        "Duplicate Email Error",
-        409,
-        `Email ${email} is currently used`,
-        true
-      );
+      throw new DuplicateError(`Email ${email} is currently used`);
     }
 
     const hashedPassword = await authService.hash.encrypt(password);

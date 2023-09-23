@@ -1,12 +1,7 @@
 import { BaseError } from "./BaseError.js";
 
 export class DuplicateError extends BaseError {
-  constructor(
-    name = "Duplicate Error",
-    statusCode = 409,
-    message = "Conflict",
-    isOperational = true
-  ) {
-    super(name, statusCode, message, isOperational);
+  constructor(message = "Conflict") {
+    super("Duplicate Error", 409, message, true);
   }
 }

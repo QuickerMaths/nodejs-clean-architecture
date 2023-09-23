@@ -14,35 +14,25 @@ export default function refreshTokenService() {
   const getNewAccessToken = async (refreshToken) => {
     try {
       const {
-        data: { accessToken: newAccessToken },
+        data: { accessToken: newAccessToken }
       } = await axios.get("http://localhost:3000/refresh-token", {
         withCredentials: true,
         headers: {
-          Cookie: [`refreshToken=${refreshToken}`],
-        },
+          Cookie: [`refreshToken=${refreshToken}`]
+        }
       });
 
       return newAccessToken;
     } catch (err) {
       if (err.response) {
-        throw new ForbiddenError(
-          "Forbidden.",
-          err.response.data.statusCode,
-          err.response.data.body.error,
-          true
-        );
+        throw new ForbiddenError(err.response.data.body.error);
       } else {
-        throw new ForbiddenError(
-          "Forbidden.",
-          403,
-          "Invalid refresh token",
-          true
-        );
+        throw new ForbiddenError("Invalid refresh token");
       }
     }
   };
 
   return Object.freeze({
-    getNewAccessToken,
+    getNewAccessToken
   });
 }

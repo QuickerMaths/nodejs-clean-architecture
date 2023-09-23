@@ -1,12 +1,7 @@
 import { BaseError } from "./BaseError.js";
 
 export class ForbiddenError extends BaseError {
-  constructor(
-    name = "Forbidden",
-    statusCode = 403,
-    description = "Access denied.",
-    isOperational = true
-  ) {
-    super(name, statusCode, description, isOperational);
+  constructor(description = "Access denied.") {
+    super("Forbidden", 403, description, true);
   }
 }

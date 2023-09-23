@@ -1,7 +1,7 @@
 import {
   FieldRequiredError,
   ValidationError,
-  InvalidEmail,
+  InvalidEmail
 } from "../../utils/errors/index.errors.js";
 
 /**
@@ -26,29 +26,14 @@ export default function makeUserValidation(validator, schema) {
     if (!isValid) {
       validate.errors.map((error) => {
         if (error.keyword === "required") {
-          throw new FieldRequiredError(
-            "Field Required Error",
-            400,
-            error.message,
-            true
-          );
+          throw new FieldRequiredError(error.message);
         } else if (
           error.keyword === "minLength" ||
           error.keyword === "maxLength"
         ) {
-          throw new ValidationError(
-            "Validation Error",
-            400,
-            `${error.instancePath} ${error.message}`,
-            true
-          );
+          throw new ValidationError(`${error.instancePath} ${error.message}`);
         } else if (error.keyword === "format") {
-          throw new InvalidEmail(
-            "Invalid Email Format",
-            400,
-            `${error.params.format} ${error.message}`,
-            true
-          );
+          throw new InvalidEmail(`${error.params.format} ${error.message}`);
         }
       });
     }

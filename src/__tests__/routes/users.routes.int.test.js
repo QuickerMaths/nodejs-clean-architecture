@@ -41,12 +41,7 @@ describe("users router", () => {
       //Arrange
       const { userSignUpWrongInput, errorResponse } = userUtils;
       validationMock.userValidation.mockImplementation(() => {
-        throw new FieldRequiredError(
-          "Field Required Error",
-          400,
-          "password field is required",
-          true
-        );
+        throw new FieldRequiredError("Password field is required");
       });
 
       //Act

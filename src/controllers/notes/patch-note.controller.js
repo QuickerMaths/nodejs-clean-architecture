@@ -11,24 +11,19 @@ import { MissingPropertyError } from "../../utils/errors/index.errors.js";
 export default function makePatchNote({ updateNote }) {
   return async function patchNote(httpRequest) {
     if (!httpRequest.params.id) {
-      throw new MissingPropertyError(
-        "Missing Property Error",
-        400,
-        "Property id is missing.",
-        true
-      );
+      throw new MissingPropertyError("Property id is missing.");
     }
 
     const toUpdate = httpRequest.body;
 
     const updatedNote = await updateNote({
       id: httpRequest.params.id,
-      toUpdate,
+      toUpdate
     });
 
     return {
       statusCode: 200,
-      body: { updatedNote },
+      body: { updatedNote }
     };
   };
 }
