@@ -1,14 +1,5 @@
 import { ForbiddenError } from "../../utils/errors/ForbiddenError.js";
 
-/**
- * The function `makeVerifyRefreshToken` verifies the validity of a refresh token and returns an access
- * token if the refresh token is valid.
- *
- * @returns The function `makeVerifyRefreshToken` returns an asynchronous function that takes an object
- * parameter `{ requestToken }`. Inside the function, it performs various checks and verifications on
- * the `requestToken` and returns an object with an `accessToken` property.
- */
-
 export default function makeVerifyRefreshToken({
   refreshTokenDb,
   authService

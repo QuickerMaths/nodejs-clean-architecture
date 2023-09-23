@@ -159,7 +159,6 @@ router
    *           $ref: '#/components/schemas/ForbiddenError'
    */
 
-  //TODO: add 404 not found error
   .patch(
     "/:id",
     authExpressMiddleware,
