@@ -11,9 +11,7 @@ export default function makeGetNotes({ findNotes }) {
 
     return {
       statusCode: 200,
-      body: {
-        notes,
-      },
+      body: notes
     };
   };
 }

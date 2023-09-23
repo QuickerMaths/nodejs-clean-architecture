@@ -44,6 +44,12 @@ const errorResponse = {
   }
 };
 
+const userDecodedToken = {
+  _id: userId,
+  username: "test",
+  email: "example@gmail.com"
+};
+
 const userUtils = Object.freeze({
   userId,
   user,
@@ -52,7 +58,8 @@ const userUtils = Object.freeze({
   userSignUpWrongInput,
   userLoginInput,
   userWrongLoginInput,
-  errorResponse
+  errorResponse,
+  userDecodedToken
 });
 
 export default userUtils;

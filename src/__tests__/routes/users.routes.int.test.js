@@ -6,7 +6,7 @@ import jwt from "../../__mocks__/jsonwebtoken/jsonwebtoken.js";
 
 import request from "supertest";
 import createServer from "../../server.js";
-import userUtils from "../../utils/test-utlities/users.utils.js";
+import userUtils from "../../utils/test-utilities/users.utils.js";
 import { FieldRequiredError } from "../../utils/errors/index.errors.js";
 
 const app = createServer();

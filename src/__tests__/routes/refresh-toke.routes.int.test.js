@@ -3,7 +3,7 @@ import refreshTokenDbMock from "../../__mocks__/data-access/refresh-token/index.
 
 import request from "supertest";
 import createServer from "../../server.js";
-import userUtils from "../../utils/test-utlities/users.utils.js";
+import userUtils from "../../utils/test-utilities/users.utils.js";
 
 const app = createServer();
 

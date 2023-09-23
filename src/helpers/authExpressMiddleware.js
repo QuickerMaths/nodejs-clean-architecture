@@ -13,10 +13,6 @@ import { ForbiddenError } from "../utils/errors/index.errors.js";
 const authExpressMiddleware = (authService) => async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
 
-  if (!accessToken || !refreshToken) {
-    next(new ForbiddenError("Credentials missing"));
-  }
-
   const decoded = authService.jwt.verifyToken(accessToken);
 
   if (!decoded) {
