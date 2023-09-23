@@ -6,6 +6,7 @@ import { DuplicateError } from "./DuplicateError.js";
 import { UnauthorizedError } from "./UnauthorizedError.js";
 import { ForbiddenError } from "./ForbiddenError.js";
 import { MissingPropertyError } from "./MissingPropertyError.js";
+import { NotFoundError } from "./NotFoundError.js";
 
 export {
   BaseError,
@@ -16,4 +17,5 @@ export {
   UnauthorizedError,
   ForbiddenError,
   MissingPropertyError,
+  NotFoundError
 };
