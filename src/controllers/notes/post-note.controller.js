@@ -12,14 +12,14 @@ export default function makePostNote({ addNote }) {
       title: httpRequest.body.title,
       content: httpRequest.body.content,
       important: httpRequest.body.important,
-      userId: httpRequest.user.id,
+      userId: httpRequest.user._id
     };
 
     const note = await addNote({ ...toAdd });
 
     return {
       statusCode: 201,
-      body: { note },
+      body: note
     };
   };
 }

@@ -23,12 +23,6 @@ router
    *      application/json:
    *       schema:
    *        $ref: '#/components/schemas/UpdateNoteResponse'
-   *    400:
-   *      description: Bad Request
-   *      content:
-   *       application/json:
-   *        schema:
-   *         $ref: '#/components/schemas/BadRequestError'
    *    403:
    *      description: Forbidden
    *      content:

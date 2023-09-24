@@ -5,8 +5,8 @@ const userId = new mongoose.Types.ObjectId().toString();
 
 const noteResponse = {
   id: noteId,
-  title: "title",
-  content: "content",
+  title: "title with 10 characters 1",
+  content: "content with 10 characters 1",
   important: false,
   userId: userId,
   createdAt: "2021-01-01T00:00:00.000Z",
@@ -16,8 +16,8 @@ const noteResponse = {
 const noteResponseArray = [
   {
     id: noteId,
-    title: "title1",
-    content: "content1",
+    title: "title with 10 characters 1",
+    content: "content with 10 characters 1",
     important: false,
     userId: userId,
     createdAt: "2021-01-01T00:00:00.000Z",
@@ -25,8 +25,8 @@ const noteResponseArray = [
   },
   {
     id: noteId,
-    title: "title2",
-    content: "content2",
+    title: "title with 10 characters 2",
+    content: "content with 10 characters 2",
     important: false,
     userId: userId,
     createdAt: "2021-01-01T00:00:00.000Z",
@@ -34,8 +34,8 @@ const noteResponseArray = [
   },
   {
     id: noteId,
-    title: "title3",
-    content: "content3",
+    title: "title with 10 characters 3",
+    content: "content with 10 characters 3",
     important: false,
     userId: userId,
     createdAt: "2021-01-01T00:00:00.000Z",
@@ -43,9 +43,17 @@ const noteResponseArray = [
   }
 ];
 
+const createNoteRequest = {
+  title: "title with 10 characters 1",
+  content: "content with 10 characters 1",
+  important: false,
+  userId: userId
+};
+
 const notesUtilities = Object.freeze({
   noteResponse,
-  noteResponseArray
+  noteResponseArray,
+  createNoteRequest
 });
 
 export default notesUtilities;
