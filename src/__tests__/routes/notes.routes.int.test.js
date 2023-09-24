@@ -5,6 +5,7 @@ import request from "supertest";
 import createServer from "../../server.js";
 import notesUtilities from "../../utils/test-utilities/notes.utils.js";
 import userUtils from "../../utils/test-utilities/users.utils.js";
+import notesDbMock from "../../__mocks__/data-access/notes/index.db.mock.js";
 
 const app = createServer();
 
@@ -82,26 +83,107 @@ describe("notes route", () => {
   describe("DELETE /notes/:id", () => {
     it("Success --> return { statusCode: 204, body: { } }", async () => {
       //Arrange
+      const { userDecodedToken, noteId } = userUtils;
+      jwt.verify.mockImplementation(() => userDecodedToken);
+      noteDbMock.remove.mockImplementation(() => Promise.resolve({}));
+
       //Act
+      const response = await request(app)
+        .delete(`/notes/${noteId}`)
+        .set("set-cookies", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+          "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
       //Assert
+      expect(response.statusCode).toBe(204);
+      expect(response.body).toEqual({});
+      expect(jwt.verify && noteDbMock.remove).toHaveBeenCalledTimes(1);
     });
-    it("test", async () => {
+
+    it("Note with given id not found --> return { statusCode: 404, body: { error: message } }", async () => {
       //Arrange
+      const { noteId } = notesUtilities;
+      const { errorResponse } = userUtils;
+      notesDbMock.remove.mockImplementation(() => Promise.resolve(null));
+
       //Act
+      const response = await request(app)
+        .delete(`/notes/${noteId}`)
+        .set("set-cookies", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+          "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
       //Assert
-    });
-    it("test", async () => {
-      //Arrange
-      //Act
-      //Assert
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toEqual(errorResponse);
+      expect(jwt.verify && notesDbMock.remove).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("PATCH /notes/:id", () => {
-    it("test", async () => {
+    it("Success --> return { statusCode: 200, body: { updatedNote } }", async () => {
       //Arrange
+      const { noteId, updateNoteRequest, updateNoteResponse } = notesUtilities;
+      const { userDecodedToken } = userUtils;
+      jwt.verify.mockImplementation(() => userDecodedToken);
+      noteDbMock.update.mockImplementation(() =>
+        Promise.resolve(updateNoteResponse)
+      );
+
       //Act
+      const response = await request(app)
+        .patch(`/notes/${noteId}`)
+        .send(updateNoteRequest)
+        .set("set-cookies", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+          "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
       //Assert
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual(updateNoteResponse);
+      expect(jwt.verify && noteDbMock.update).toHaveBeenCalledTimes(1);
+    });
+
+    it("Missing input field or validation rules violation --> return { statusCode: 400, body: { error: message } }", async () => {
+      //Arrange
+      const { noteId, updateNoteRequestWithInvalidTitle } = notesUtilities;
+      const { errorResponse } = userUtils;
+
+      //Act
+      const response = await request(app)
+        .patch(`/notes/${noteId}`)
+        .send(updateNoteRequestWithInvalidTitle)
+        .set("set-cookies", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+          "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
+      //Assert
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toEqual(errorResponse);
+    });
+
+    it("Note with given id not found --> return { statusCode: 404, body: { error: message } }", async () => {
+      //Arrange
+      const { noteId } = notesUtilities;
+      const { errorResponse } = userUtils;
+      notesDbMock.update.mockImplementation(() => Promise.resolve(null));
+
+      //Act
+      const response = await request(app)
+        .patch(`/notes/${noteId}`)
+        .set("set-cookies", [
+          "refreshToken=token; Path=/; HttpOnly; Secure; SameSite=None",
+          "accessToken=token; Path=/; HttpOnly; Secure; SameSite=None"
+        ]);
+
+      //Assert
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toEqual(errorResponse);
+      expect(jwt.verify && notesDbMock.update).toHaveBeenCalledTimes(1);
     });
   });
 

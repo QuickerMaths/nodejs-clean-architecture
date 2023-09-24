@@ -50,17 +50,34 @@ const createNoteRequest = {
   userId: userId
 };
 
-const createNoteBadRequest = {
-  title: "title 3 characters 1",
-  content: "content with 10 characters 1",
-  important: false,
+const updateNoteResponse = {
+  title: "title updated with 10 characters 1",
+  content: "content updated with 10 characters 1",
+  important: true,
   userId: userId
 };
 
+const updateNoteRequest = {
+  title: "title updated with 10 characters 1",
+  content: "content updated with 10 characters 1",
+  important: true
+};
+
+const updateNoteRequestWithInvalidTitle = {
+  title: "title",
+  content: "content with 10 characters 1",
+  important: true
+};
+
 const notesUtilities = Object.freeze({
+  noteId,
+  userId,
   noteResponse,
   noteResponseArray,
-  createNoteRequest
+  createNoteRequest,
+  updateNoteResponse,
+  updateNoteRequest,
+  updateNoteRequestWithInvalidTitle
 });
 
 export default notesUtilities;

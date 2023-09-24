@@ -92,12 +92,6 @@ router
    *      application/json:
    *       schema:
    *        $ref: '#/components/schemas/DeleteNoteResponse'
-   *    400:
-   *      description: Bad Request
-   *      content:
-   *       application/json:
-   *        schema:
-   *         $ref: '#/components/schemas/BadRequestError'
    *    403:
    *      description: Forbidden
    *      content:

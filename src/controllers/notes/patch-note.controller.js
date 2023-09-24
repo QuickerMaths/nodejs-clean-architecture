@@ -1,5 +1,3 @@
-import { MissingPropertyError } from "../../utils/errors/index.errors.js";
-
 /**
  * The function `makePatchNote` is an async function that takes an `updateNote` function as a parameter
  * and returns a function `patchNote` that handles patching a note with the given `id` and `toUpdate`
@@ -10,10 +8,6 @@ import { MissingPropertyError } from "../../utils/errors/index.errors.js";
 
 export default function makePatchNote({ updateNote }) {
   return async function patchNote(httpRequest) {
-    if (!httpRequest.params.id) {
-      throw new MissingPropertyError("Property id is missing.");
-    }
-
     const toUpdate = httpRequest.body;
 
     const updatedNote = await updateNote({
@@ -23,7 +17,7 @@ export default function makePatchNote({ updateNote }) {
 
     return {
       statusCode: 200,
-      body: { updatedNote }
+      body: updatedNote
     };
   };
 }

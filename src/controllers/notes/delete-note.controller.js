@@ -1,5 +1,3 @@
-import { MissingPropertyError } from "../../utils/errors/index.errors.js";
-
 /**
  * The function `makeDeleteNote` is an async function that takes an object with a `removeNote` function
  * as a parameter and returns an async function `deleteNote` that deletes a note based on the provided
@@ -10,10 +8,6 @@ import { MissingPropertyError } from "../../utils/errors/index.errors.js";
 
 export default function makeDeleteNote({ removeNote }) {
   return async function deleteNote(httpRequest) {
-    if (!httpRequest.params.id) {
-      throw new MissingPropertyError("Property id is missing.");
-    }
-
     const content = await removeNote({ id: httpRequest.params.id });
 
     return {

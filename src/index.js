@@ -7,7 +7,6 @@ import { logger } from "./helpers/logger.js";
 
 //TODO: figure out how to use notFound route so that it doesn't interfere with swagger docs
 //TODO: Implement initial database set up
-//TODO: Add tests
 
 const app = createServer();
 
@@ -24,8 +23,8 @@ app.use((err, req, res, next) => {
   return res.status(err.statusCode).send({
     statusCode: err.statusCode,
     body: {
-      error: err.message,
-    },
+      error: err.message
+    }
   });
 });
 
