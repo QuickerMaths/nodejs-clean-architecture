@@ -50,6 +50,13 @@ const createNoteRequest = {
   userId: userId
 };
 
+const createNoteBadRequest = {
+  title: "title 3 characters 1",
+  content: "content with 10 characters 1",
+  important: false,
+  userId: userId
+};
+
 const notesUtilities = Object.freeze({
   noteResponse,
   noteResponseArray,

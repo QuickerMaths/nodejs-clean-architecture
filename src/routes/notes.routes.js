@@ -104,6 +104,12 @@ router
    *        application/json:
    *          schema:
    *           $ref: '#/components/schemas/ForbiddenError'
+   *    404:
+   *      description: Not Found
+   *      content:
+   *        application/json:
+   *          schema:
+   *           $ref: '#/components/schemas/NotFoundError'
    */
 
   .delete(
@@ -151,6 +157,12 @@ router
    *        application/json:
    *          schema:
    *           $ref: '#/components/schemas/ForbiddenError'
+   *    404:
+   *      description: Not Found
+   *      content:
+   *        application/json:
+   *          schema:
+   *           $ref: '#/components/schemas/NotFoundError'
    */
 
   .patch(
