@@ -61,7 +61,10 @@ git clone https://github.com/QuickerMaths/nodejs-clean-architecture
 # install dependencies 
 npm i
 
-# rename .env.example file to .env and enter your mongoDB URI
+# rename .env.example file to .env
+
+# run 
+docker compose up
 
 # start the local server 
 npm run dev
